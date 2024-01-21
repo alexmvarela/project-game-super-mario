@@ -37,7 +37,8 @@ class Mario {
 
         this.animationTick = 0;
         
-        //this.bullets = [];
+        this.bulletsToRight = [];
+        this.bulletsToLeft = [];
     }
     
     onKeyEvent(event) {
@@ -52,17 +53,27 @@ class Mario {
             case KEY_LEFT:
                 this.movements.left = enabled;
                 break;
-            case KEY_DOWN:
+            case KEY_CROUCH:
                 this.movements.crouch = enabled;
                 break;
-            case KEY_UP:
+            case KEY_JUMP_1:
                 if (enabled) {
                     this.jump();
                 }
                 break;
-            case KEY_FIRE:
+            case KEY_JUMP_2:
                 if (enabled) {
-                    this.fire();
+                    this.jump();
+                }
+                break;
+            case KEY_SHOOT_1:
+                if (enabled) {
+                    this.shoot();
+                }
+                break;
+            case KEY_SHOOT_2:
+                if (enabled) {
+                    this.shoot();
                 }
                 break;
         }
@@ -86,14 +97,15 @@ class Mario {
             this.animate();
         }
         
-        //this.bullets.forEach((bullet) => bullet.draw());
+        this.bulletsToRight.forEach((bullet) => bullet.draw());
+        this.bulletsToLeft.forEach((bullet) => bullet.draw());
     }
     
     animate() {
         
         this.animationTick++;
         
-        if (this.movements.isJumping && this.sprite.horizontalFrameIndex < 7 ) {
+        if (this.movements.isJumping && this.sprite.horizontalFrameIndex < 7) {
             this.sprite.horizontalFrameIndex = 6;
         } else if (this.movements.isJumping && this.sprite.horizontalFrameIndex >= 7) {
             this.sprite.horizontalFrameIndex = 7;
@@ -120,7 +132,7 @@ class Mario {
             if (this.sprite.horizontalFrameIndex < 8) {
                 this.sprite.horizontalFrameIndex += 8 - this.sprite.horizontalFrameIndex;
                 this.sprite.horizontalFrameIndex++;
-            }else {
+            } else {
                 this.sprite.horizontalFrameIndex++;
             }
             
@@ -164,7 +176,8 @@ class Mario {
             this.h = MARIO_HEIGHT;
         }
 
-        //this.bullets.forEach((bullet) => bullet.move());
+        this.bulletsToRight.forEach((bullet) => bullet.moveRight());
+        this.bulletsToLeft.forEach((bullet) => bullet.moveLeft());
     }
     
     jump() {
@@ -175,13 +188,23 @@ class Mario {
             this.vy = -MARIO_SPEED_JUMP;
         }
     }
-
-    /*fire() {
-
-        if (!this.movements.isShutting) {
-          this.movements.isShutting = true;
-          this.bullets.push(new Bullet(this.ctx, this.x + this.w, this.y + Math.ceil(this.h / 2)));
-          setTimeout(() => this.movements.isShutting = false, MARIO_BULLET_BACK_OFF);
+    
+    shoot() {
+        
+        if (!this.movements.isShooting && !this.movements.crouch) {
+            this.movements.isShooting = true;
+            if (this.sprite.horizontalFrameIndex < 7) {
+                this.bulletsToRight.push(new Bullet(this.ctx, this.x + this.w, this.y + Math.ceil(this.h / 2.5)));
+            } else {
+                this.bulletsToLeft.push(new Bullet(this.ctx, this.x, this.y + Math.ceil(this.h / 2.5)));
+            }
+            setTimeout(() => this.movements.isShooting = false, MARIO_BULLET_BACK_OFF);
         }
-      }*/
+    }
+
+    clearBullets() {
+
+        this.bulletsToRight = this.bulletsToRight.filter((bullet) => bullet.x < this.ctx.canvas.width);
+        this.bulletsToLeft = this.bulletsToLeft.filter((bullet) => bullet.x < this.ctx.canvas.width);
+    }
 }
