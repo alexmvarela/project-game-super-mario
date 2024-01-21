@@ -26,15 +26,16 @@ class Background {
         }
     }
     
-    move(marioPosition) {
+    move(mario) {
         
-        if (marioPosition.x > BACKGROUND_X_MOVE_RIGHT) {
-            marioPosition.x = BACKGROUND_X_MOVE_RIGHT;
+        if (mario.x > BACKGROUND_X_MOVE_RIGHT && mario.movements.right) {
+            mario.x = BACKGROUND_X_MOVE_RIGHT;
             this.x -= this.vx;
+        }
   
-        } else if (marioPosition.x < BACKGROUND_X_MOVE_LEFT && this.x < 0) {
-            marioPosition.x = BACKGROUND_X_MOVE_LEFT;
+        if (mario.x > BACKGROUND_X_MOVE_LEFT && mario.movements.left && this.x < 0) {
+            mario.x = BACKGROUND_X_MOVE_RIGHT;
             this.x += this.vx;
-        } 
+        }
     }
 }

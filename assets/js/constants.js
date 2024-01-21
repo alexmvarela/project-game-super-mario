@@ -2,7 +2,7 @@ const ASPECT_RATIO = 4 / 3; //The aspect ratio should not be modified
 
 const CANVAS_W = 500;
 
-const RESIZE_FACTOR = CANVAS_W / 500;// The resize factor should not be modified
+const RESIZE_FACTOR = CANVAS_W / 500; // The resize factor should not be modified
 
 const FPS = 1000 / 60;
 
