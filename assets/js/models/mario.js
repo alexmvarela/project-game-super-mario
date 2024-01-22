@@ -92,7 +92,7 @@ class Mario {
                 this.y,
                 this.w,
                 this.h
-            )
+            );
             
             this.animate();
         }
@@ -171,7 +171,7 @@ class Mario {
 
         if (this.movements.crouch && this.y === this.y0) {
             this.h = MARIO_HEIGHT - MARIO_CROUCH_H_REDUCE;
-            this.y += this.h - MARIO_CROUCH_H_PADDING;   
+            this.y += this.h - (MARIO_HEIGHT - (MARIO_CROUCH_H_REDUCE * RF));   
         } else if (!this.movements.crouch && this.h === MARIO_HEIGHT - MARIO_CROUCH_H_REDUCE) {
             this.h = MARIO_HEIGHT;
         }

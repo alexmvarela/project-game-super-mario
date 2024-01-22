@@ -47,7 +47,7 @@ class Bullet {
                 this.y,
                 this.w,
                 this.h
-            )
+            );
 
             this.animate();
         }  
