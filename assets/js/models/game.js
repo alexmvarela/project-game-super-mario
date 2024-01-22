@@ -19,9 +19,14 @@ class Game {
         this.mario = new Mario(this.ctx, MARIO_X_PADDING, this.canvas.height - MARIO_GROUND_PADDING);
 
         this.platforms = [
-            new Platform(this.ctx, 300 * RF, 243 * RF, 150 * RF, 81 * RF),
-            new Platform(this.ctx, 500 * RF, 200 * RF, 150 * RF, 125 * RF),
-        ]
+            //new Platform(this.ctx, 300 * RF, 243 * RF, 150 * RF, 81 * RF),
+            //new Platform(this.ctx, 500 * RF, 200 * RF, 150 * RF, 125 * RF),
+        ];
+
+        this.blocksItem = [
+            //new BlockItem(this.ctx, 300 * RF, 250 * RF, 37 * RF, 37 * RF),
+            //new BlockItem(this.ctx, 450 * RF, 150 * RF, 37 * RF, 37 * RF),
+        ];
 
         this.pipelines = [
             new Pipeline(this.ctx, 1000 * RF, 255 * RF, 65 * RF, 69 * RF), //Go down
@@ -74,6 +79,7 @@ class Game {
         
         this.background.draw();
         this.platforms.forEach((platform) => platform.draw());
+        this.blocksItem.forEach((block) => block.draw());
         this.pipelines.forEach((pipeline) => pipeline.draw());
         //this.coins.forEach((coin)=> coin.draw());
         //this.enemies.forEach((enemy) => enemy.draw())
@@ -85,6 +91,7 @@ class Game {
         this.mario.move();
         this.background.move(this.mario);
         this.platforms.forEach((platform) => platform.move(this.background));
+        this.blocksItem.forEach((block) => block.move(this.background));
         this.pipelines.forEach((pipeline) => pipeline.move(this.background));
         //this.coins.forEach((coin) => coin.move(this.background));
         //this.enemies.forEach((enemie) => enemie.move(this.background))
@@ -98,6 +105,7 @@ class Game {
             this.background.y = -this.canvas.height;
             this.pipelines.forEach((pipeline) => pipeline.y += this.canvas.height);
             this.platforms.forEach((platform) => platform.y += this.canvas.height);
+            this.blocksItem.forEach((block) => block.y += this.canvas.height);
             this.mario.y = 0;
         }
 
@@ -105,6 +113,7 @@ class Game {
             this.background.y = 0;
             this.pipelines.forEach((pipeline) => pipeline.y -= this.canvas.height);
             this.platforms.forEach((platform) => platform.y -= this.canvas.height);
+            this.blocksItem.forEach((block) => block.y -= this.canvas.height);
         }
         
         this.pipelines.forEach((pipeline) => {
@@ -139,6 +148,33 @@ class Game {
                 this.mario.vy = 0;
                 this.mario.movements.isJumping = false;
             
+            } else {
+                this.mario.y0 = this.canvas.height - MARIO_GROUND_PADDING;
+           }
+        });
+
+        this.blocksItem.forEach((block) => {
+
+            if (block.collidesWithDown(this.mario)) {
+                this.mario.y = block.y + block.h;
+                this.mario.vy = 0;
+                block.status.isOn = false;
+                block.status.isOff = true;
+            }
+            
+            if (block.collidesWithLeft(this.mario)) {
+                this.mario.x = block.x - this.mario.w;
+           }
+           
+           if (block.collidesWithRight(this.mario)) {
+                this.mario.x = block.x + block.w;
+           }
+           
+           if (block.collidesWithUp(this.mario)) {
+                this.mario.y = block.y - this.mario.h;
+                this.mario.vy = 0;
+                this.mario.movements.isJumping = false;
+                
             } else {
                 this.mario.y0 = this.canvas.height - MARIO_GROUND_PADDING;
            }
