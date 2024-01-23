@@ -1,13 +1,13 @@
 class BlockItem {
     
-    constructor (ctx, x, y, w, h) {
+    constructor (ctx, x, y) {
         
         this.ctx = ctx;
 
         this.x = x;
         this.y = y;
-        this.w = w;
-        this.h = h;
+        this.w = BLOCK_ITEM_WIDTH;
+        this.h = BLOCK_ITEM_HEIGHT;
 
         this.vx = BACKGROUND_SPEED;
         
