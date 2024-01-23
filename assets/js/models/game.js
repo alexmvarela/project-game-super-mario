@@ -24,26 +24,31 @@ class Game {
         ];
 
         this.blocksItem = [
-            //new BlockItem(this.ctx, 300 * RF, 250 * RF, 37 * RF, 37 * RF),
-            //new BlockItem(this.ctx, 450 * RF, 150 * RF, 37 * RF, 37 * RF),
+            //new BlockItem(this.ctx, 350 * RF, 150 * RF),
+            //new BlockItem(this.ctx, 500 * RF, 250 * RF),
         ];
 
         this.blocks = [
-            //new Block(this.ctx, 300 * RF, 150 * RF, 40 * RF, 40 * RF),
-            //new Block(this.ctx, 450 * RF, 250 * RF, 40 * RF, 40 * RF),
+            //new Block(this.ctx, 268, 150),
+            //new Block(this.ctx, 300 * RF, 150 * RF),
+            //new Block(this.ctx, 410 * RF, 150 * RF),
+        ];
+
+        this.coins = [
+            //new Coin(this.ctx, 300 * RF, 250 * RF),
         ];
 
         this.pipelines = [
             new Pipeline(this.ctx, 1000 * RF, 255 * RF, 65 * RF, 69 * RF), //Go down
-            new Pipeline(this.ctx, 450 * RF, -750 * RF, 65 * RF, 750 * RF), //Left border
-            new Pipeline(this.ctx, 1700 * RF, -750 * RF, 65 * RF, 750 * RF), //Right border
-            new Pipeline(this.ctx, 1440 * RF, -750 * RF, 65 * RF, 550 * RF), //Go up
+            new Pipeline(this.ctx, 580 * RF, -750 * RF, 65 * RF, 750 * RF), //Left border
+            new Pipeline(this.ctx, 1800 * RF, -750 * RF, 65 * RF, 750 * RF), //Right border
+            new Pipeline(this.ctx, 1425 * RF, -750 * RF, 80 * RF, 550 * RF), //Go up
             new Pipeline(this.ctx, 1440 * RF, 255 * RF, 65 * RF, 69 * RF), //Up
 
             new Pipeline(this.ctx, 2500 * RF, 255 * RF, 65 * RF, 69 * RF), //Go down
             new Pipeline(this.ctx, 2200 * RF, -750 * RF, 65 * RF, 750 * RF), //Left border
-            new Pipeline(this.ctx, 3700 * RF, -750 * RF, 65 * RF, 750 * RF), //Right border
-            new Pipeline(this.ctx, 3440 * RF, -750 * RF, 65 * RF, 550 * RF), //Go up
+            new Pipeline(this.ctx, 3800 * RF, -750 * RF, 65 * RF, 750 * RF), //Right border
+            new Pipeline(this.ctx, 3425 * RF, -750 * RF, 80 * RF, 550 * RF), //Go up
             new Pipeline(this.ctx, 3440 * RF, 255 * RF, 65 * RF, 69 * RF), //Up
 
             //new Pipeline(this.ctx, 300 * RF, 255 * RF, (65/1) * RF, (138/2) * RF),
@@ -87,7 +92,7 @@ class Game {
         this.blocksItem.forEach((block) => block.draw());
         this.blocks.forEach((block) => block.draw());
         this.pipelines.forEach((pipeline) => pipeline.draw());
-        //this.coins.forEach((coin)=> coin.draw());
+        this.coins.forEach((coin) => coin.draw());
         //this.enemies.forEach((enemy) => enemy.draw())
         this.mario.draw();
     }
@@ -100,7 +105,7 @@ class Game {
         this.blocksItem.forEach((block) => block.move(this.background));
         this.blocks.forEach((block) => block.move(this.background));
         this.pipelines.forEach((pipeline) => pipeline.move(this.background));
-        //this.coins.forEach((coin) => coin.move(this.background));
+        this.coins.forEach((coin) => coin.move(this.background));
         //this.enemies.forEach((enemie) => enemie.move(this.background))
     }
 
@@ -114,6 +119,7 @@ class Game {
             this.platforms.forEach((platform) => platform.y += this.canvas.height);
             this.blocksItem.forEach((block) => block.y += this.canvas.height);
             this.blocks.forEach((block) => block.y += this.canvas.height);
+            this.coins.forEach((coin) => coin.y += this.canvas.height);
             this.mario.y = 0;
         }
 
@@ -123,6 +129,7 @@ class Game {
             this.platforms.forEach((platform) => platform.y -= this.canvas.height);
             this.blocksItem.forEach((block) => block.y -= this.canvas.height);
             this.blocks.forEach((block) => block.y -= this.canvas.height);
+            this.coins.forEach((coin) => coin.y -= this.canvas.height);
         }
         
         this.pipelines.forEach((pipeline) => {
@@ -217,6 +224,13 @@ class Game {
             } else {
                 this.mario.y0 = this.canvas.height - MARIO_GROUND_PADDING;
            }
+        });
+
+        this.coins.forEach((coin, index) => {
+
+            if (coin.collidesWith(this.mario)) {
+                delete(this.coins[index]);
+            }
         });
     }      
 }

@@ -1,4 +1,4 @@
-class Block {
+class Coin {
     
     constructor (ctx, x, y) {
         
@@ -6,17 +6,17 @@ class Block {
 
         this.x = x;
         this.y = y;
-        this.w = BLOCK_WIDTH;
-        this.h = BLOCK_HEIGHT;
+        this.w = COIN_WIDTH;
+        this.h = COIN_HEIGHT;
 
         this.vx = BACKGROUND_SPEED;
         
         this.sprite = new Image();
-        this.sprite.src = 'assets/img/block.png';
+        this.sprite.src = 'assets/img/coin.png';
         
         this.sprite.verticalFrames = 1;
         this.sprite.verticalFrameIndex = 0;
-        this.sprite.horizontalFrames = 2;
+        this.sprite.horizontalFrames = 8;
         this.sprite.horizontalFrameIndex = 0;
         
         this.sprite.onload = () => {
@@ -25,10 +25,7 @@ class Block {
             this.sprite.frameHeight = Math.ceil(this.sprite.height / this.sprite.verticalFrames);
         }
 
-        this.status = {
-            isOn: true,
-            isOff: false
-        }
+        this.animationTick = 0;
     }
 
     draw() {
@@ -52,12 +49,15 @@ class Block {
 
     animate() {
         
-        if (this.status.isOn) {
-            this.sprite.horizontalFrameIndex = 0;
+        this.animationTick++;
+  
+        if (this.animationTick >= COIN_ANIMATION_TICK) {
+            this.animationTick = 0;
+            this.sprite.horizontalFrameIndex++;
         }
         
-        if (this.status.isOff) {
-            this.sprite.horizontalFrameIndex = 1;        
+        if (this.sprite.horizontalFrameIndex > this.sprite.horizontalFrames - 1) {
+            this.sprite.horizontalFrameIndex = 0;
         }
     }
     
@@ -71,44 +71,13 @@ class Block {
         }
     }
 
-    collidesWithLeft(element) {
+    collidesWith(element) {
         
         return (
+            element.y + element.h >= this.y - (2 * RF) && 
+            element.y <= this.y + this.h + (2 * RF) &&
             element.x + element.w >= this.x &&
-            element.x + element.w <= this.x + (10 * RF) &&
-            element.y + element.h > this.y + (5 * RF) && 
-            element.y < this.y + this.h - (5 * RF)
-
-        )
-    }
-    
-    collidesWithRight(element) {
-        
-        return (
-            element.x <= this.x + this.w &&
-            element.x  >= this.x + this.w - (10 * RF) &&
-            element.y + element.h > this.y + (5 * RF) &&
-            element.y < this.y + this.h - (5 * RF)
-        )
-    }
-    
-    collidesWithUp(element) {
-
-        return (
-            element.y + element.h > this.y &&
-            element.y + element.h < this.y + (10 * RF)  &&
-            element.x + element.w >= this.x + (5 * RF) &&
-            element.x <= this.x + this.w - (5 * RF)
-        )
-    }
-
-    collidesWithDown(element) {
-
-        return (
-            element.x + element.w >= this.x + (5 * RF) &&
-            element.x <= this.x + this.w - (10 * RF) &&
-            element.y > this.y + this.h - (20 * RF) &&
-            element.y < this.y + this.h 
+            element.x <= this.x + this.w 
         )
     }
 }
