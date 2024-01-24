@@ -35,6 +35,12 @@ class Mario {
             isShooting: false
         }
 
+        this.status = {
+            isFire: false,
+        }
+
+        this.lives = 3;
+
         this.animationTick = 0;
         
         this.bulletsToRight = [];
