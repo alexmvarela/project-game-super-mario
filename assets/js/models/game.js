@@ -32,6 +32,10 @@ class Game {
             //new Lakitu(this.ctx, 300 * RF, 250 * RF),
         ];
 
+        this.piranhas = [
+            //new Piranha(this.ctx, 300 * RF, 210 * RF),
+        ];
+
         this.platforms = [
             //new Platform(this.ctx, 300 * RF, 243 * RF, 150 * RF, 81 * RF),
             //new Platform(this.ctx, 500 * RF, 200 * RF, 150 * RF, 125 * RF),
@@ -66,7 +70,7 @@ class Game {
             new Pipeline(this.ctx, 3425 * RF, -750 * RF, 80 * RF, 550 * RF), //Go up
             new Pipeline(this.ctx, 3440 * RF, 255 * RF, 65 * RF, 69 * RF), //Up
 
-            //new Pipeline(this.ctx, 300 * RF, 255 * RF, (65/1) * RF, (138/2) * RF),
+            new Pipeline(this.ctx, 285 * RF, 255 * RF, 65 * RF, 69 * RF),
         ];
     }
    
@@ -106,6 +110,7 @@ class Game {
         this.platforms.forEach((platform) => platform.draw());
         this.blocksItem.forEach((block) => block.draw());
         this.blocks.forEach((block) => block.draw());
+        this.piranhas.forEach((piranha) => piranha.draw());
         this.pipelines.forEach((pipeline) => pipeline.draw());
         this.goombas.forEach((goomba) => goomba.draw());
         this.spinys.forEach((spiny) => spiny.draw());
@@ -121,6 +126,7 @@ class Game {
         this.platforms.forEach((platform) => platform.move(this.background));
         this.blocksItem.forEach((block) => block.move(this.background));
         this.blocks.forEach((block) => block.move(this.background));
+        this.piranhas.forEach((piranha) => piranha.move(this.background));
         this.pipelines.forEach((pipeline) => pipeline.move(this.background));
         this.coins.forEach((coin) => coin.move(this.background));
         this.goombas.forEach((goomba) => goomba.move(this.background));
@@ -135,6 +141,7 @@ class Game {
         if ((this.pipelines[0].collidesWithUp(this.mario) || this.pipelines[5].collidesWithUp(this.mario)) && this.mario.movements.crouch) {
             this.background.y = -this.canvas.height;
             this.pipelines.forEach((pipeline) => pipeline.y += this.canvas.height);
+            this.piranhas.forEach((piranha) => piranha.y += this.canvas.height);
             this.platforms.forEach((platform) => platform.y += this.canvas.height);
             this.blocksItem.forEach((block) => block.y += this.canvas.height);
             this.blocks.forEach((block) => block.y += this.canvas.height);
@@ -148,6 +155,7 @@ class Game {
         if (this.pipelines[3].collidesWithDown(this.mario) || this.pipelines[8].collidesWithDown(this.mario)) {
             this.background.y = 0;
             this.pipelines.forEach((pipeline) => pipeline.y -= this.canvas.height);
+            this.piranhas.forEach((piranha) => piranha.y -= this.canvas.height);
             this.platforms.forEach((platform) => platform.y -= this.canvas.height);
             this.blocksItem.forEach((block) => block.y -= this.canvas.height);
             this.blocks.forEach((block) => block.y -= this.canvas.height);
@@ -363,6 +371,41 @@ class Game {
             this.mario.bulletsToLeft.forEach((bullet) => {
                 if (goomba.collidesWithBullet(bullet)) {
                     delete(this.lakitus[index]);  
+                }
+            });
+        });
+
+        this.piranhas.forEach((piranha, index) => {
+            
+            if (piranha.collidesWithLeft(this.mario)) {
+                this.mario.x = piranha.x - this.mario.w - (5 * RF);
+                this.mario.lives --;
+            }
+           
+            if (piranha.collidesWithRight(this.mario)) {
+                this.mario.x = piranha.x + piranha.w + (5 * RF);
+                this.mario.lives --;
+            }
+           
+            if (piranha.collidesWithUp(this.mario)) {
+                this.mario.lives--;
+                this.mario.y0 = piranha.y - this.mario.h;
+                this.mario.vy = 0;
+                this.mario.movements.isJumping = false;
+                this.mario.jump();
+            } else {
+                this.mario.y0 = this.canvas.height - MARIO_GROUND_PADDING;
+            }
+            
+            this.mario.bulletsToRight.forEach((bullet) => {
+                if (piranha.collidesWithBullet(bullet)) {
+                    delete(this.piranhas[index]); 
+                }
+            });
+
+            this.mario.bulletsToLeft.forEach((bullet) => {
+                if (piranha.collidesWithBullet(bullet)) {
+                    delete(this.piranhas[index]);  
                 }
             });
         });
