@@ -24,6 +24,10 @@ class Game {
             //new Goomba(this.ctx, 300 * RF, 212 * RF),
         ];
 
+        this.spinys = [
+            //new Spiny(this.ctx, 300 * RF, 297 * RF),
+        ];
+
         this.lakitus = [
             //new Lakitu(this.ctx, 300 * RF, 250 * RF),
         ];
@@ -104,6 +108,7 @@ class Game {
         this.blocks.forEach((block) => block.draw());
         this.pipelines.forEach((pipeline) => pipeline.draw());
         this.goombas.forEach((goomba) => goomba.draw());
+        this.spinys.forEach((spiny) => spiny.draw());
         this.lakitus.forEach((lakitu) => lakitu.draw());
         this.coins.forEach((coin) => coin.draw());
         this.mario.draw();
@@ -119,6 +124,7 @@ class Game {
         this.pipelines.forEach((pipeline) => pipeline.move(this.background));
         this.coins.forEach((coin) => coin.move(this.background));
         this.goombas.forEach((goomba) => goomba.move(this.background));
+        this.spinys.forEach((spiny) => spiny.move(this.background));
         this.lakitus.forEach((lakitu) => lakitu.move(this.background));
     }
 
@@ -134,6 +140,7 @@ class Game {
             this.blocks.forEach((block) => block.y += this.canvas.height);
             this.coins.forEach((coin) => coin.y += this.canvas.height);
             this.goombas.forEach((goomba) => goomba.y += this.canvas.height);
+            this.spinys.forEach((spiny) => spiny.y += this.canvas.height);
             this.lakitus.forEach((lakitu) => lakitu.y += this.canvas.height);
             this.mario.y = 0;
         }
@@ -146,6 +153,7 @@ class Game {
             this.blocks.forEach((block) => block.y -= this.canvas.height);
             this.coins.forEach((coin) => coin.y -= this.canvas.height);
             this.goombas.forEach((goomba) => goomba.y -= this.canvas.height);
+            this.spinys.forEach((spiny) => spiny.y -= this.canvas.height);
             this.lakitus.forEach((lakitu) => lakitu.y -= this.canvas.height);
         }
         
@@ -281,6 +289,41 @@ class Game {
             this.mario.bulletsToLeft.forEach((bullet) => {
                 if (goomba.collidesWithBullet(bullet)) {
                     delete(this.goombas[index]);  
+                }
+            });
+        });
+
+        this.spinys.forEach((spiny, index) => {
+            
+            if (spiny.collidesWithLeft(this.mario)) {
+                this.mario.x = spiny.x - this.mario.w - (5 * RF);
+                this.mario.lives --;
+            }
+           
+            if (spiny.collidesWithRight(this.mario)) {
+                this.mario.x = spiny.x + spiny.w + (5 * RF);
+                this.mario.lives --;
+            }
+           
+            if (spiny.collidesWithUp(this.mario)) {
+                this.mario.lives--;
+                this.mario.y0 = spiny.y - this.mario.h;
+                this.mario.vy = 0;
+                this.mario.movements.isJumping = false;
+                this.mario.jump();
+            } else {
+                this.mario.y0 = this.canvas.height - MARIO_GROUND_PADDING;
+            }
+            
+            this.mario.bulletsToRight.forEach((bullet) => {
+                if (spiny.collidesWithBullet(bullet)) {
+                    delete(this.spinys[index]); 
+                }
+            });
+
+            this.mario.bulletsToLeft.forEach((bullet) => {
+                if (spiny.collidesWithBullet(bullet)) {
+                    delete(this.spinys[index]);  
                 }
             });
         });
