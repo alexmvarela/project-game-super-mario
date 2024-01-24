@@ -29,6 +29,8 @@ class Block {
             isOn: true,
             isOff: false
         }
+
+        this.animationTick = 0;
     }
 
     draw() {
@@ -57,6 +59,7 @@ class Block {
         }
         
         if (this.status.isOff) {
+            this.animationTick++;
             this.sprite.horizontalFrameIndex = 1;        
         }
     }

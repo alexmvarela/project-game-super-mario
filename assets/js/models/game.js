@@ -18,20 +18,27 @@ class Game {
 
         this.mario = new Mario(this.ctx, MARIO_X_PADDING, this.canvas.height - MARIO_GROUND_PADDING);
 
+        this.goombas = [
+            new Goomba(this.ctx, 300 * RF, 286 * RF),
+            //new Goomba(this.ctx, 300 * RF, 249 * RF),
+            //new Goomba(this.ctx, 300 * RF, 212 * RF),
+        ];
+
         this.platforms = [
             //new Platform(this.ctx, 300 * RF, 243 * RF, 150 * RF, 81 * RF),
             //new Platform(this.ctx, 500 * RF, 200 * RF, 150 * RF, 125 * RF),
         ];
 
         this.blocksItem = [
-            //new BlockItem(this.ctx, 350 * RF, 150 * RF),
+            //new BlockItem(this.ctx, 550 * RF, 150 * RF),
             //new BlockItem(this.ctx, 500 * RF, 250 * RF),
         ];
 
         this.blocks = [
-            //new Block(this.ctx, 268, 150),
-            //new Block(this.ctx, 300 * RF, 150 * RF),
-            //new Block(this.ctx, 410 * RF, 150 * RF),
+            //new Block(this.ctx, 500, 150),
+            //new Block(this.ctx, 600 * RF, 150 * RF),
+            //new Block(this.ctx, 632 * RF, 150 * RF),
+            //new Block(this.ctx, 410 * RF, 250 * RF),
         ];
 
         this.coins = [
@@ -92,8 +99,8 @@ class Game {
         this.blocksItem.forEach((block) => block.draw());
         this.blocks.forEach((block) => block.draw());
         this.pipelines.forEach((pipeline) => pipeline.draw());
+        this.goombas.forEach((goomba) => goomba.draw());
         this.coins.forEach((coin) => coin.draw());
-        //this.enemies.forEach((enemy) => enemy.draw())
         this.mario.draw();
     }
 
@@ -106,7 +113,7 @@ class Game {
         this.blocks.forEach((block) => block.move(this.background));
         this.pipelines.forEach((pipeline) => pipeline.move(this.background));
         this.coins.forEach((coin) => coin.move(this.background));
-        //this.enemies.forEach((enemie) => enemie.move(this.background))
+        this.goombas.forEach((goomba) => goomba.move(this.background))
     }
 
 
@@ -120,6 +127,7 @@ class Game {
             this.blocksItem.forEach((block) => block.y += this.canvas.height);
             this.blocks.forEach((block) => block.y += this.canvas.height);
             this.coins.forEach((coin) => coin.y += this.canvas.height);
+            this.goombas.forEach((goomba) => goomba.y += this.canvas.height);
             this.mario.y = 0;
         }
 
@@ -130,6 +138,7 @@ class Game {
             this.blocksItem.forEach((block) => block.y -= this.canvas.height);
             this.blocks.forEach((block) => block.y -= this.canvas.height);
             this.coins.forEach((coin) => coin.y -= this.canvas.height);
+            this.goombas.forEach((goomba) => goomba.y -= this.canvas.height);
         }
         
         this.pipelines.forEach((pipeline) => {
@@ -141,17 +150,16 @@ class Game {
             
             if (pipeline.collidesWithLeft(this.mario)) {
                 this.mario.x = pipeline.x - this.mario.w;
-           }
+            }
            
-           if (pipeline.collidesWithRight(this.mario)) {
+            if (pipeline.collidesWithRight(this.mario)) {
                 this.mario.x = pipeline.x + pipeline.w;
-           }
+            }
            
-           if (pipeline.collidesWithUp(this.mario)) {
+            if (pipeline.collidesWithUp(this.mario)) {
                 this.mario.y = pipeline.y - this.mario.h;
                 this.mario.vy = 0;
                 this.mario.movements.isJumping = false;
-            
             } else {
                 this.mario.y0 = this.canvas.height - MARIO_GROUND_PADDING;
            }
@@ -163,7 +171,6 @@ class Game {
                 this.mario.y = platform.y - this.mario.h;
                 this.mario.vy = 0;
                 this.mario.movements.isJumping = false;
-            
             } else {
                 this.mario.y0 = this.canvas.height - MARIO_GROUND_PADDING;
            }
@@ -180,20 +187,19 @@ class Game {
             
             if (block.collidesWithLeft(this.mario)) {
                 this.mario.x = block.x - this.mario.w - (5 * RF);
-           }
+            }
            
-           if (block.collidesWithRight(this.mario)) {
+            if (block.collidesWithRight(this.mario)) {
                 this.mario.x = block.x + block.w + (5 * RF);
-           }
+            }
            
-           if (block.collidesWithUp(this.mario)) {
+            if (block.collidesWithUp(this.mario)) {
                 this.mario.y = block.y - this.mario.h;
                 this.mario.vy = 0;
-                this.mario.movements.isJumping = false;
-                
+                this.mario.movements.isJumping = false;   
             } else {
                 this.mario.y0 = this.canvas.height - MARIO_GROUND_PADDING;
-           }
+            }
         });
 
         this.blocks.forEach((block, index) => {
@@ -203,33 +209,57 @@ class Game {
                 this.mario.vy = 0;
                 block.status.isOn = false;
                 block.status.isOff = true;
-                if (block.sprite.horizontalFrameIndex === 1) {
-                    delete(this.blocks[index]);
-                }
             }
             
             if (block.collidesWithLeft(this.mario)) {
                 this.mario.x = block.x - this.mario.w - (5 * RF);
-           }
+            }
            
-           if (block.collidesWithRight(this.mario)) {
+            if (block.collidesWithRight(this.mario)) {
                 this.mario.x = block.x + block.w + (5 * RF);
-           }
+            }
            
-           if (block.collidesWithUp(this.mario)) {
+            if (block.collidesWithUp(this.mario)) {
                 this.mario.y = block.y - this.mario.h;
                 this.mario.vy = 0;
                 this.mario.movements.isJumping = false;
-                
             } else {
                 this.mario.y0 = this.canvas.height - MARIO_GROUND_PADDING;
-           }
+                if (block.sprite.horizontalFrameIndex === 1 && block.animationTick > BLOCK_DELETE_DELAY) {
+                    delete(this.blocks[index]);
+                }
+            }
         });
 
         this.coins.forEach((coin, index) => {
 
             if (coin.collidesWith(this.mario)) {
                 delete(this.coins[index]);
+            }
+        });
+
+        this.goombas.forEach((goomba, index) => {
+            
+            if (goomba.collidesWithLeft(this.mario)) {
+                this.mario.x = goomba.x - this.mario.w - (5 * RF);
+            }
+           
+            if (goomba.collidesWithRight(this.mario)) {
+                this.mario.x = goomba.x + goomba.w + (5 * RF);
+            }
+           
+            if (goomba.collidesWithUp(this.mario)) {
+                this.mario.y0 = goomba.y - this.mario.h;
+                this.mario.vy = 0;
+                this.mario.movements.isJumping = false;
+                this.mario.jump();
+                goomba.status.isAlive = false;
+                goomba.status.isDead = true;
+            } else {
+                this.mario.y0 = this.canvas.height - MARIO_GROUND_PADDING;
+                if (goomba.sprite.verticalFrameIndex === 1 && goomba.animationTick > GOOMBA_DELETE_DELAY) {
+                    delete(this.goombas[index]);
+                }
             }
         });
     }      
