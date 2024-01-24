@@ -1,4 +1,4 @@
-class Goomba {
+class Lakitu {
     
     constructor (ctx, x, y) {
         
@@ -6,17 +6,17 @@ class Goomba {
 
         this.x = x;
         this.y = y;
-        this.w = GOOMBA_WIDTH;
-        this.h = GOOMBA_HEIGHT;
+        this.w = LAKITU_WIDTH;
+        this.h = LAKITU_HEIGHT;
 
-        this.vx = GOOMBA_SPEED;
+        this.vy = LAKITU_SPEED;
         
         this.sprite = new Image();
-        this.sprite.src = 'assets/img/goomba.png';
+        this.sprite.src = 'assets/img/lakitu.png';
         
-        this.sprite.verticalFrames = 2;
+        this.sprite.verticalFrames = 1;
         this.sprite.verticalFrameIndex = 0;
-        this.sprite.horizontalFrames = 2;
+        this.sprite.horizontalFrames = 3;
         this.sprite.horizontalFrameIndex = 0;
         
         this.sprite.onload = () => {
@@ -26,8 +26,8 @@ class Goomba {
         }
 
         this.movements = {
-            right: false,
-            left: true
+            up: true,
+            down: false
         }
 
         this.status = {
@@ -63,87 +63,49 @@ class Goomba {
         if (this.status.isAlive) {
             this.animationTick++;
         
-            if (this.animationTick > GOOMBA_ANIMATION_TICK) {
+            if (this.animationTick > LAKITU_ANIMATION_TICK) {
                 this.animationTick = 0;
                 this.sprite.horizontalFrameIndex++;
             }
 
-            if (this.sprite.horizontalFrameIndex > 1) {
+            if (this.sprite.horizontalFrameIndex > 2) {
                 this.sprite.horizontalFrameIndex = 0;
             }
         }
 
         if (this.status.isDead) {
+            this.sprite.horizontalFrameIndex = 1;    
             this.animationTick++;
-            this.sprite.horizontalFrameIndex = 0;
-            this.sprite.verticalFrameIndex = 1;     
         }
     }
     
     move(background) {
         
         this.moveTick++;
-
-        if (this.movements.left && this.status.isAlive && background.movements.left) {
-            this.x -= BACKGROUND_SPEED + (1 * RF);
-            if (this.moveTick > GOOMBA_MOVE_TICK) {
-                this.movements.left = false;
-                this.movements.right = true;
-                this.moveTick = 0;
-            }
-        }
-
-        if (this.movements.right && this.status.isAlive && background.movements.left) {
-            this.x -= BACKGROUND_SPEED - (1 * RF);
-            if (this.moveTick > GOOMBA_MOVE_TICK) {
-                this.movements.right = false;
-                this.movements.left = true;
-                this.moveTick = 0;
-            }
-        }
-
-        if (this.movements.left && this.status.isAlive && background.movements.right) {
-            this.x += BACKGROUND_SPEED - (1 * RF);
-            if (this.moveTick > GOOMBA_MOVE_TICK) {
-                this.movements.left = false;
-                this.movements.right = true;
-                this.moveTick = 0;
-            }
-        }
-
-        if (this.movements.right && this.status.isAlive && background.movements.right) {
-            this.x += BACKGROUND_SPEED + (1 * RF);
-            if (this.moveTick > GOOMBA_MOVE_TICK) {
-                this.movements.right = false;
-                this.movements.left = true;
-                this.moveTick = 0;
-            }
-        }
-
-        if (this.movements.left && this.status.isAlive && !background.movements.left && !background.movements.right) {
-            this.x -= GOOMBA_SPEED ;
-            if (this.moveTick > GOOMBA_MOVE_TICK) {
-                this.movements.left = false;
-                this.movements.right = true;
-                this.moveTick = 0;
-            }
-        }
         
-        if (this.movements.right && this.status.isAlive && !background.movements.left && !background.movements.right) {
-            this.x += GOOMBA_SPEED;
-            if (this.moveTick > GOOMBA_MOVE_TICK) {
-                this.movements.right = false;
-                this.movements.left = true;
-                this.moveTick = 0;
-            }
-        }
-        
-        if (this.status.isDead && background.movements.left) {
+        if (background.movements.left) {
             this.x -= BACKGROUND_SPEED;
+            
+        } else if (background.movements.right) {
+            this.x += BACKGROUND_SPEED;
+        }
+        
+        if (this.movements.up && this.status.isAlive) {
+            this.y -= LAKITU_SPEED;
+            if (this.moveTick > LAKITU_MOVE_TICK) {
+                this.movements.up = false;
+                this.movements.down = true;
+                this.moveTick = 0;
+            }
         }
 
-        if (this.status.isDead && background.movements.right) {
-            this.x += BACKGROUND_SPEED;
+        if (this.movements.down && this.status.isAlive) {
+            this.y += LAKITU_SPEED;
+            if (this.moveTick > LAKITU_MOVE_TICK) {
+                this.movements.down = false;
+                this.movements.up = true;
+                this.moveTick = 0;
+            }
         }
     }
 

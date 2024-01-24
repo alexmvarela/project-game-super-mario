@@ -19,9 +19,13 @@ class Game {
         this.mario = new Mario(this.ctx, MARIO_X_PADDING, this.canvas.height - MARIO_GROUND_PADDING);
 
         this.goombas = [
-            new Goomba(this.ctx, 300 * RF, 286 * RF),
+            //new Goomba(this.ctx, 300 * RF, 286 * RF),
             //new Goomba(this.ctx, 300 * RF, 249 * RF),
             //new Goomba(this.ctx, 300 * RF, 212 * RF),
+        ];
+
+        this.lakitus = [
+            //new Lakitu(this.ctx, 300 * RF, 250 * RF),
         ];
 
         this.platforms = [
@@ -30,7 +34,7 @@ class Game {
         ];
 
         this.blocksItem = [
-            //new BlockItem(this.ctx, 550 * RF, 150 * RF),
+            new BlockItem(this.ctx, 550 * RF, 150 * RF),
             //new BlockItem(this.ctx, 500 * RF, 250 * RF),
         ];
 
@@ -100,6 +104,7 @@ class Game {
         this.blocks.forEach((block) => block.draw());
         this.pipelines.forEach((pipeline) => pipeline.draw());
         this.goombas.forEach((goomba) => goomba.draw());
+        this.lakitus.forEach((lakitu) => lakitu.draw());
         this.coins.forEach((coin) => coin.draw());
         this.mario.draw();
     }
@@ -113,7 +118,8 @@ class Game {
         this.blocks.forEach((block) => block.move(this.background));
         this.pipelines.forEach((pipeline) => pipeline.move(this.background));
         this.coins.forEach((coin) => coin.move(this.background));
-        this.goombas.forEach((goomba) => goomba.move(this.background))
+        this.goombas.forEach((goomba) => goomba.move(this.background));
+        this.lakitus.forEach((lakitu) => lakitu.move(this.background));
     }
 
 
@@ -128,6 +134,7 @@ class Game {
             this.blocks.forEach((block) => block.y += this.canvas.height);
             this.coins.forEach((coin) => coin.y += this.canvas.height);
             this.goombas.forEach((goomba) => goomba.y += this.canvas.height);
+            this.lakitus.forEach((lakitu) => lakitu.y += this.canvas.height);
             this.mario.y = 0;
         }
 
@@ -139,6 +146,7 @@ class Game {
             this.blocks.forEach((block) => block.y -= this.canvas.height);
             this.coins.forEach((coin) => coin.y -= this.canvas.height);
             this.goombas.forEach((goomba) => goomba.y -= this.canvas.height);
+            this.lakitus.forEach((lakitu) => lakitu.y -= this.canvas.height);
         }
         
         this.pipelines.forEach((pipeline) => {
@@ -242,10 +250,12 @@ class Game {
             
             if (goomba.collidesWithLeft(this.mario)) {
                 this.mario.x = goomba.x - this.mario.w - (5 * RF);
+                this.mario.lives --;
             }
            
             if (goomba.collidesWithRight(this.mario)) {
                 this.mario.x = goomba.x + goomba.w + (5 * RF);
+                this.mario.lives --;
             }
            
             if (goomba.collidesWithUp(this.mario)) {
@@ -261,6 +271,57 @@ class Game {
                     delete(this.goombas[index]);
                 }
             }
+            
+            this.mario.bulletsToRight.forEach((bullet) => {
+                if (goomba.collidesWithBullet(bullet)) {
+                    delete(this.goombas[index]); 
+                }
+            });
+
+            this.mario.bulletsToLeft.forEach((bullet) => {
+                if (goomba.collidesWithBullet(bullet)) {
+                    delete(this.goombas[index]);  
+                }
+            });
+        });
+
+        this.lakitus.forEach((lakitu, index) => {
+            
+            if (lakitu.collidesWithLeft(this.mario)) {
+                this.mario.x = lakitu.x - this.mario.w - (5 * RF);
+                this.mario.lives --;
+            }
+           
+            if (lakitu.collidesWithRight(this.mario)) {
+                this.mario.x = lakitu.x + lakitu.w + (5 * RF);
+                this.mario.lives --;
+            }
+           
+            if (lakitu.collidesWithUp(this.mario)) {
+                this.mario.y0 = lakitu.y - this.mario.h;
+                this.mario.vy = 0;
+                this.mario.movements.isJumping = false;
+                this.mario.jump();
+                lakitu.status.isAlive = false;
+                lakitu.status.isDead = true;
+            } else {
+                this.mario.y0 = this.canvas.height - MARIO_GROUND_PADDING;
+                if (lakitu.sprite.horizontalFrameIndex === 1 && lakitu.animationTick > LAKITU_DELETE_DELAY) {
+                    delete(this.lakitus[index]);
+                }
+            }
+            
+            this.mario.bulletsToRight.forEach((bullet) => {
+                if (lakitu.collidesWithBullet(bullet)) {
+                    delete(this.lakitus[index]); 
+                }
+            });
+
+            this.mario.bulletsToLeft.forEach((bullet) => {
+                if (goomba.collidesWithBullet(bullet)) {
+                    delete(this.lakitus[index]);  
+                }
+            });
         });
     }      
 }
