@@ -36,15 +36,21 @@ class Mario {
         }
 
         this.status = {
+            isNotFire: true,
             isFire: false,
         }
-
-        this.lives = 3;
 
         this.animationTick = 0;
         
         this.bulletsToRight = [];
         this.bulletsToLeft = [];
+
+        this.spriteFire = new Image();
+        this.spriteFire.src = 'assets/img/mario-fire.png';
+
+        this.spriteFire.onload = () => {
+            this.spriteFire.isReady = true;
+        }
     }
     
     onKeyEvent(event) {
@@ -73,12 +79,12 @@ class Mario {
                 }
                 break;
             case KEY_SHOOT_1:
-                if (enabled) {
+                if (enabled & this.status.isFire) {
                     this.shoot();
                 }
                 break;
             case KEY_SHOOT_2:
-                if (enabled) {
+                if (enabled && this.status.isFire) {
                     this.shoot();
                 }
                 break;
@@ -87,7 +93,7 @@ class Mario {
     
     draw() {
 
-        if (this.sprite.isReady) {
+        if (this.sprite.isReady && this.status.isNotFire) {
             this.ctx.drawImage(
                 this.sprite,
                 this.sprite.horizontalFrameIndex * this.sprite.frameWidth,
@@ -99,9 +105,22 @@ class Mario {
                 this.w,
                 this.h
             );
-            
-            this.animate();
         }
+
+        if (this.spriteFire.isReady && this.status.isFire) {
+            this.ctx.drawImage(
+                this.spriteFire,
+                this.sprite.horizontalFrameIndex * this.sprite.frameWidth,
+                this.sprite.verticalFrameIndex * this.sprite.frameHeight,
+                this.sprite.frameWidth,
+                this.sprite.frameHeight,
+                this.x,
+                this.y,
+                this.w,
+                this.h
+            );
+        }  
+        this.animate();
         
         this.bulletsToRight.forEach((bullet) => bullet.draw());
         this.bulletsToLeft.forEach((bullet) => bullet.draw());
