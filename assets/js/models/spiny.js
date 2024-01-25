@@ -9,7 +9,7 @@ class Spiny {
         this.w = SPINY_WIDTH;
         this.h = SPINY_HEIGHT;
 
-        this.vx = SPINY_SPEED;
+        this.vx = BACKGROUND_SPEED;
         
         this.sprite = new Image();
         this.sprite.src = 'assets/img/spiny.png';
@@ -25,18 +25,12 @@ class Spiny {
             this.sprite.frameHeight = Math.ceil(this.sprite.height / this.sprite.verticalFrames);
         }
 
-        this.movements = {
-            right: false,
-            left: true
-        }
-
         this.status = {
             isAlive: true,
             isDead: false
         }
 
         this.animationTick = 0;
-        this.moveTick = 0;
     }
 
     draw() {
@@ -74,67 +68,10 @@ class Spiny {
 
     move(background) {
         
-        this.moveTick++;
-
-        if (this.movements.left && this.status.isAlive && background.movements.left) {
-            this.x -= BACKGROUND_SPEED + (1 * RF);
-            if (this.moveTick > SPINY_MOVE_TICK) {
-                this.movements.left = false;
-                this.movements.right = true;
-                this.moveTick = 0;
-            }
-        }
-
-        if (this.movements.right && this.status.isAlive && background.movements.left) {
-            this.x -= BACKGROUND_SPEED - (1 * RF);
-            if (this.moveTick > SPINY_MOVE_TICK) {
-                this.movements.right = false;
-                this.movements.left = true;
-                this.moveTick = 0;
-            }
-        }
-
-        if (this.movements.left && this.status.isAlive && background.movements.right) {
-            this.x += BACKGROUND_SPEED - (1 * RF);
-            if (this.moveTick > SPINY_MOVE_TICK) {
-                this.movements.left = false;
-                this.movements.right = true;
-                this.moveTick = 0;
-            }
-        }
-
-        if (this.movements.right && this.status.isAlive && background.movements.right) {
-            this.x += BACKGROUND_SPEED + (1 * RF);
-            if (this.moveTick > SPINY_MOVE_TICK) {
-                this.movements.right = false;
-                this.movements.left = true;
-                this.moveTick = 0;
-            }
-        }
-
-        if (this.movements.left && this.status.isAlive && !background.movements.left && !background.movements.right) {
-            this.x -= SPINY_SPEED ;
-            if (this.moveTick > SPINY_MOVE_TICK) {
-                this.movements.left = false;
-                this.movements.right = true;
-                this.moveTick = 0;
-            }
-        }
-        
-        if (this.movements.right && this.status.isAlive && !background.movements.left && !background.movements.right) {
-            this.x += SPINY_SPEED;
-            if (this.moveTick > SPINY_MOVE_TICK) {
-                this.movements.right = false;
-                this.movements.left = true;
-                this.moveTick = 0;
-            }
-        }
-        
-        if (this.status.isDead && background.movements.left) {
+        if (background.movements.left) {
             this.x -= BACKGROUND_SPEED;
-        }
-
-        if (this.status.isDead && background.movements.right) {
+        
+        } else if (background.movements.right) {
             this.x += BACKGROUND_SPEED;
         }
     }

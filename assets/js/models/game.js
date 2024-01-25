@@ -13,7 +13,7 @@ class Game {
 
         this.drawIntervalId = undefined;
 
-        this.score = new Score(this.ctx, 15 * RF, 15 * RF);
+        this.score = new Score(this.ctx, 15 * RF, 25 * RF);
 
     
         this.background = new Background(this.ctx);
@@ -22,8 +22,9 @@ class Game {
 
         this.goombas = [
             new Goomba(this.ctx, 650 * RF, 286 * RF),
-            //new Goomba(this.ctx, 300 * RF, 249 * RF),
-            //new Goomba(this.ctx, 300 * RF, 212 * RF),
+            new Goomba(this.ctx, 1950 * RF, 286 * RF),
+            new Goomba(this.ctx, 1950 * RF, (286 * RF) - GOOMBA_HEIGHT ),
+            
         ];
 
         this.spinys = [
@@ -32,6 +33,7 @@ class Game {
 
         this.lakitus = [
             new Lakitu(this.ctx, 1250 * RF, 150 * RF),
+            new Lakitu(this.ctx, 2000 * RF, 150 * RF),
         ];
 
         this.piranhas = [
@@ -40,12 +42,17 @@ class Game {
 
         this.platforms = [
             new Platform(this.ctx, 680 * RF, 200 * RF, 150 * RF, 125 * RF),
-            //new Platform(this.ctx, 380 * RF, 200 * RF, 150 * RF, 125 * RF),
+            new Platform(this.ctx, 2150 * RF, 100 * RF, 150 * RF, 125 * RF),
+            new Platform(this.ctx, 2400 * RF, 100 * RF, 150 * RF, 125 * RF),
+            new Platform(this.ctx, 2200 * RF, 200 * RF, 300 * RF, 125 * RF),
+            //new Platform(this.ctx, 2400 * RF, 100 * RF, 150 * RF, 125 * RF),
+            //new Platform(this.ctx, 2400 * RF, 100 * RF, 150 * RF, 125 * RF),
         ];
 
         this.blocksItem = [
             new BlockItem(this.ctx, 350 * RF, 175 * RF),
             new BlockItem(this.ctx, 1200 * RF, 175 * RF),
+            //new BlockItem(this.ctx, 2400 * RF, 105 * RF),
         ];
 
         this.blocks = [
@@ -63,7 +70,35 @@ class Game {
             new Coin(this.ctx, 782 * RF, 120 * RF),
             new Coin(this.ctx, 804 * RF, 120 * RF),
 
-            //new
+            new Coin(this.ctx, 1550 * RF, 300 * RF),
+            new Coin(this.ctx, 1572 * RF, 300 * RF),
+            new Coin(this.ctx, 1594 * RF, 300 * RF),
+            new Coin(this.ctx, 1616 * RF, 300 * RF),
+            new Coin(this.ctx, 1638 * RF, 300 * RF),
+
+            new Coin(this.ctx, 2150 * RF, 75 * RF),
+            new Coin(this.ctx, 2172 * RF, 75 * RF),
+            new Coin(this.ctx, 2194 * RF, 75 * RF),
+            new Coin(this.ctx, 2216 * RF, 75 * RF),
+            new Coin(this.ctx, 2238 * RF, 75 * RF),
+            new Coin(this.ctx, 2260 * RF, 75 * RF),
+
+            new Coin(this.ctx, 2400 * RF, 75 * RF),
+            new Coin(this.ctx, 2422 * RF, 75 * RF),
+            new Coin(this.ctx, 2444 * RF, 75 * RF),
+            new Coin(this.ctx, 2466 * RF, 75 * RF),
+            new Coin(this.ctx, 2488 * RF, 75 * RF),
+            new Coin(this.ctx, 2510 * RF, 75 * RF),
+
+            new Coin(this.ctx, 2250 * RF, 175 * RF),
+            new Coin(this.ctx, 2272 * RF, 175 * RF),
+            new Coin(this.ctx, 2294 * RF, 175 * RF),
+            new Coin(this.ctx, 2316 * RF, 175 * RF),
+            new Coin(this.ctx, 2338 * RF, 175 * RF),
+            new Coin(this.ctx, 2360 * RF, 175 * RF),
+            new Coin(this.ctx, 2382 * RF, 175 * RF),
+            new Coin(this.ctx, 2404 * RF, 175 * RF),
+            new Coin(this.ctx, 2426 * RF, 175 * RF),
         ];
 
         this.mushrooms = [];
@@ -349,10 +384,14 @@ class Game {
                 this.mario.status.isFire = false;
                 this.mario.status.isNotFire = true;
                 this.score.decLives();
+            
             } else if (goomba.collidesWithRight(this.mario)) {
                 this.mario.x = goomba.x + goomba.w + (5 * RF);
                 this.mario.lives --;
+                this.mario.status.isFire = false;
+                this.mario.status.isNotFire = true;
                 this.score.decLives();
+            
             } else {
                 this.mario.y0 = this.canvas.height - MARIO_GROUND_PADDING;
                 if (goomba.sprite.verticalFrameIndex === 1 && goomba.animationTick > GOOMBA_DELETE_DELAY) {
@@ -380,6 +419,8 @@ class Game {
             
             if (spiny.collidesWithUp(this.mario)) {
                 this.mario.lives--;
+                this.mario.status.isFire = false;
+                this.mario.status.isNotFire = true;
                 this.score.decLives();
                 this.mario.y0 = spiny.y - this.mario.h;
                 this.mario.vy = 0;
@@ -389,12 +430,17 @@ class Game {
             } else if (spiny.collidesWithLeft(this.mario)) {
                 this.mario.x = spiny.x - this.mario.w - (5 * RF);
                 this.mario.lives --;
+                this.mario.status.isFire = false;
+                this.mario.status.isNotFire = true;
                 this.score.decLives();
             
             } else if (spiny.collidesWithRight(this.mario)) {
                 this.mario.x = spiny.x + spiny.w + (5 * RF);
                 this.mario.lives --;
+                this.mario.status.isFire = false;
+                this.mario.status.isNotFire = true;
                 this.score.decLives();
+            
             } else {
                 this.mario.y0 = this.canvas.height - MARIO_GROUND_PADDING;
             }
@@ -427,15 +473,21 @@ class Game {
             } else if (lakitu.collidesWithLeft(this.mario)) {
                 this.mario.x = lakitu.x - this.mario.w - (5 * RF);
                 this.mario.lives --;
+                this.mario.status.isFire = false;
+                this.mario.status.isNotFire = true;
                 this.score.decLives();
             
             } else if (lakitu.collidesWithRight(this.mario)) {
                 this.mario.x = lakitu.x + lakitu.w + (5 * RF);
                 this.mario.lives --;
+                this.mario.status.isFire = false;
+                this.mario.status.isNotFire = true;
                 this.score.decLives();
             
             } else if (lakitu.collidesWithDown(this.mario)) {
                 this.mario.lives --;
+                this.mario.status.isFire = false;
+                this.mario.status.isNotFire = true;
                 this.score.decLives();
             
             } else {
@@ -465,6 +517,8 @@ class Game {
             
             if (piranha.collidesWithUp(this.mario)) {
                 this.mario.lives--;
+                this.mario.status.isFire = false;
+                this.mario.status.isNotFire = true;
                 this.score.decLives();
                 this.mario.y0 = piranha.y - this.mario.h;
                 this.mario.vy = 0;
@@ -474,11 +528,15 @@ class Game {
             } else if (piranha.collidesWithLeft(this.mario)) {
                 this.mario.x = piranha.x - this.mario.w - (5 * RF);
                 this.mario.lives --;
+                this.mario.status.isFire = false;
+                this.mario.status.isNotFire = true;
                 this.score.decLives();
             
             } else if (piranha.collidesWithRight(this.mario)) {
                 this.mario.x = piranha.x + piranha.w + (5 * RF);
                 this.mario.lives --;
+                this.mario.status.isFire = false;
+                this.mario.status.isNotFire = true;
                 this.score.decLives();
             
             } else {
