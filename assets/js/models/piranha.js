@@ -8,6 +8,9 @@ class Piranha {
         this.y = y;
         this.w = PIRANHA_WIDTH;
         this.h = PIRANHA_HEIGHT;
+        
+        this.yMax = this.y;
+        this.yMin = this.y + this.h;
 
         this.vy = PIRANHA_SPEED;
         
@@ -92,6 +95,9 @@ class Piranha {
         
         if (this.movements.up && this.status.isAlive) {
             this.y -= PIRANHA_SPEED;
+            if (this.y < this.yMax) {
+                this.y = this.yMax;
+            }
             if (this.moveTick > PIRANHA_MOVE_TICK) {
                 this.movements.up = false;
                 this.movements.down = true;
@@ -101,6 +107,9 @@ class Piranha {
 
         if (this.movements.down && this.status.isAlive) {
             this.y += PIRANHA_SPEED;
+            if (this.y > this.yMin) {
+                this.y = this.yMin;
+            }
             if (this.moveTick > PIRANHA_MOVE_TICK) {
                 this.movements.down = false;
                 this.movements.up = true;

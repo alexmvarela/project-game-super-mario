@@ -9,6 +9,9 @@ class Lakitu {
         this.w = LAKITU_WIDTH;
         this.h = LAKITU_HEIGHT;
 
+        this.yMax = this.y - (100 * RF);
+        this.yMin = this.y + this.h;
+
         this.vy = LAKITU_SPEED;
         
         this.sprite = new Image();
@@ -26,8 +29,8 @@ class Lakitu {
         }
 
         this.movements = {
-            up: true,
-            down: false
+            up: false,
+            down: true
         }
 
         this.status = {
@@ -92,6 +95,9 @@ class Lakitu {
         
         if (this.movements.up && this.status.isAlive) {
             this.y -= LAKITU_SPEED;
+            if (this.y < this.yMax) {
+                this.y = this.yMax;
+            }
             if (this.moveTick > LAKITU_MOVE_TICK) {
                 this.movements.up = false;
                 this.movements.down = true;
@@ -101,6 +107,9 @@ class Lakitu {
 
         if (this.movements.down && this.status.isAlive) {
             this.y += LAKITU_SPEED;
+            if (this.y > this.yMin) {
+                this.y = this.yMin;
+            }
             if (this.moveTick > LAKITU_MOVE_TICK) {
                 this.movements.down = false;
                 this.movements.up = true;

@@ -31,11 +31,11 @@ class Game {
         ];
 
         this.lakitus = [
-            //new Lakitu(this.ctx, 450 * RF, 250 * RF),
+            new Lakitu(this.ctx, 1250 * RF, 150 * RF),
         ];
 
         this.piranhas = [
-            //new Piranha(this.ctx, 300 * RF, 210 * RF),
+            new Piranha(this.ctx, 1710 * RF, 210 * RF),
         ];
 
         this.platforms = [
@@ -44,14 +44,14 @@ class Game {
 
         this.blocksItem = [
             new BlockItem(this.ctx, 350 * RF, 175 * RF),
-            //new BlockItem(this.ctx, 500 * RF, 250 * RF),
+            new BlockItem(this.ctx, 1200 * RF, 175 * RF),
         ];
 
         this.blocks = [
             new Block(this.ctx, 300 * RF, 175 * RF),
             new Block(this.ctx, 400 * RF, 175 * RF),
-            //new Block(this.ctx, 530 * RF, 250 * RF),
-            //new Block(this.ctx, 410 * RF, 250 * RF),
+            new Block(this.ctx, 1300 * RF, 250 * RF),
+            //new Block(this.ctx, 1550 * RF, 250 * RF),
         ];
 
         this.coins = [
@@ -83,6 +83,7 @@ class Game {
             new Pipeline(this.ctx, 3440 * RF, 255 * RF, 65 * RF, 69 * RF), //Up
 
             new Pipeline(this.ctx, 150 * RF, 255 * RF, 65 * RF, 69 * RF),
+            new Pipeline(this.ctx, 1700 * RF, 255 * RF, 65 * RF, 69 * RF),
         ];
     }
    
