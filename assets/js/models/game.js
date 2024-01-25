@@ -21,7 +21,7 @@ class Game {
         this.mario = new Mario(this.ctx, MARIO_X_PADDING, this.canvas.height - MARIO_GROUND_PADDING);
 
         this.goombas = [
-            //new Goomba(this.ctx, 300 * RF, 286 * RF),
+            new Goomba(this.ctx, 650 * RF, 286 * RF),
             //new Goomba(this.ctx, 300 * RF, 249 * RF),
             //new Goomba(this.ctx, 300 * RF, 212 * RF),
         ];
@@ -31,7 +31,7 @@ class Game {
         ];
 
         this.lakitus = [
-            //new Lakitu(this.ctx, 300 * RF, 250 * RF),
+            //new Lakitu(this.ctx, 450 * RF, 250 * RF),
         ];
 
         this.piranhas = [
@@ -39,26 +39,35 @@ class Game {
         ];
 
         this.platforms = [
-            //new Platform(this.ctx, 300 * RF, 243 * RF, 150 * RF, 81 * RF),
-            //new Platform(this.ctx, 500 * RF, 200 * RF, 150 * RF, 125 * RF),
+            new Platform(this.ctx, 680 * RF, 200 * RF, 150 * RF, 125 * RF),
         ];
 
         this.blocksItem = [
-            new BlockItem(this.ctx, 550 * RF, 150 * RF),
+            new BlockItem(this.ctx, 350 * RF, 175 * RF),
             //new BlockItem(this.ctx, 500 * RF, 250 * RF),
         ];
 
         this.blocks = [
-            //new Block(this.ctx, 500, 150),
-            //new Block(this.ctx, 600 * RF, 150 * RF),
-            //new Block(this.ctx, 632 * RF, 150 * RF),
+            new Block(this.ctx, 300 * RF, 175 * RF),
+            new Block(this.ctx, 400 * RF, 175 * RF),
+            //new Block(this.ctx, 530 * RF, 250 * RF),
             //new Block(this.ctx, 410 * RF, 250 * RF),
         ];
 
         this.coins = [
-            //new Coin(this.ctx, 300 * RF, 250 * RF),
-            //new Coin(this.ctx, 330 * RF, 250 * RF),
+            new Coin(this.ctx, 694 * RF, 120 * RF),
+            new Coin(this.ctx, 716 * RF, 120 * RF),
+            new Coin(this.ctx, 738 * RF, 120 * RF),
+            new Coin(this.ctx, 760 * RF, 120 * RF),
+            new Coin(this.ctx, 782 * RF, 120 * RF),
+            new Coin(this.ctx, 804 * RF, 120 * RF),
+
+            //new
         ];
+
+        this.mushrooms = [];
+
+        this.flowers = [];
 
         this.pipelines = [
             new Pipeline(this.ctx, 1000 * RF, 255 * RF, 65 * RF, 69 * RF), //Go down
@@ -73,7 +82,7 @@ class Game {
             new Pipeline(this.ctx, 3425 * RF, -750 * RF, 80 * RF, 550 * RF), //Go up
             new Pipeline(this.ctx, 3440 * RF, 255 * RF, 65 * RF, 69 * RF), //Up
 
-            //new Pipeline(this.ctx, 285 * RF, 255 * RF, 65 * RF, 69 * RF),
+            new Pipeline(this.ctx, 150 * RF, 255 * RF, 65 * RF, 69 * RF),
         ];
     }
    
@@ -110,7 +119,6 @@ class Game {
     draw() {
         
         this.background.draw();
-        this.score.draw();
         this.platforms.forEach((platform) => platform.draw());
         this.blocksItem.forEach((block) => block.draw());
         this.blocks.forEach((block) => block.draw());
@@ -120,7 +128,10 @@ class Game {
         this.spinys.forEach((spiny) => spiny.draw());
         this.lakitus.forEach((lakitu) => lakitu.draw());
         this.coins.forEach((coin) => coin.draw());
+        this.mushrooms.forEach((mushroom) => mushroom.draw());
+        this.flowers.forEach((flower) => flower.draw());
         this.mario.draw();
+        this.score.draw();
     }
 
     move() {
@@ -133,6 +144,8 @@ class Game {
         this.piranhas.forEach((piranha) => piranha.move(this.background));
         this.pipelines.forEach((pipeline) => pipeline.move(this.background));
         this.coins.forEach((coin) => coin.move(this.background));
+        this.mushrooms.forEach((mushroom) => mushroom.move(this.background));
+        this.flowers.forEach((flower) => flower.move(this.background));
         this.goombas.forEach((goomba) => goomba.move(this.background));
         this.spinys.forEach((spiny) => spiny.move(this.background));
         this.lakitus.forEach((lakitu) => lakitu.move(this.background));
@@ -150,6 +163,8 @@ class Game {
             this.blocksItem.forEach((block) => block.y += this.canvas.height);
             this.blocks.forEach((block) => block.y += this.canvas.height);
             this.coins.forEach((coin) => coin.y += this.canvas.height);
+            this.mushrooms.forEach((mushroom) => mushroom.y += this.canvas.height);
+            this.flowers.forEach((flower) => flower.y += this.canvas.height);
             this.goombas.forEach((goomba) => goomba.y += this.canvas.height);
             this.spinys.forEach((spiny) => spiny.y += this.canvas.height);
             this.lakitus.forEach((lakitu) => lakitu.y += this.canvas.height);
@@ -164,6 +179,8 @@ class Game {
             this.blocksItem.forEach((block) => block.y -= this.canvas.height);
             this.blocks.forEach((block) => block.y -= this.canvas.height);
             this.coins.forEach((coin) => coin.y -= this.canvas.height);
+            this.mushrooms.forEach((mushroom) => mushroom.y -= this.canvas.height);
+            this.mushrooms.forEach((flower) => flower.y -= this.canvas.height);
             this.goombas.forEach((goomba) => goomba.y -= this.canvas.height);
             this.spinys.forEach((spiny) => spiny.y -= this.canvas.height);
             this.lakitus.forEach((lakitu) => lakitu.y -= this.canvas.height);
@@ -190,7 +207,7 @@ class Game {
                 this.mario.movements.isJumping = false;
             } else {
                 this.mario.y0 = this.canvas.height - MARIO_GROUND_PADDING;
-           }
+            }
         });
 
         this.platforms.forEach((platform) => {
@@ -209,10 +226,19 @@ class Game {
             if (block.collidesWithDown(this.mario)) {
                 this.mario.y = block.y + block.h;
                 this.mario.vy = 0;
+                if (block.status.isOn && this.score.lives > 40 && this.mario.status.isNotFire) {
+                    this.flowers.push(new Flower(this.ctx, block.x, block.y - FLOWER_HEIGHT));
+                } else if (block.status.isOn && this.score.lives > 40 && this.mario.status.isFire) {
+                    this.coins.push(new Coin(this.ctx, block.x + (4 * RF), block.y - COIN_HEIGHT));
+                    this.coins.push(new Coin(this.ctx, block.x + (4 * RF), block.y - (COIN_HEIGHT * 2)));
+                    this.coins.push(new Coin(this.ctx, block.x + (4 * RF), block.y - (COIN_HEIGHT * 3)));
+                    this.score.points += 10;
+                } else if (block.status.isOn) {
+                    this.mushrooms.push(new Mushroom(this.ctx, block.x + (2 * RF), block.y - SCORE_MUSHROOM_HEIGHT))
+                }
                 block.status.isOn = false;
-                block.status.isOff = true;
+                block.status.isOff = true;  
             }
-            
             if (block.collidesWithLeft(this.mario)) {
                 this.mario.x = block.x - this.mario.w - (5 * RF);
             }
@@ -265,7 +291,26 @@ class Game {
             if (coin.collidesWith(this.mario)) {
                 this.score.incCoins();
                 delete(this.coins[index]);
-                this.score.points += 10;
+                this.score.points += 5;
+            }
+        });
+
+        this.mushrooms.forEach((mushroom, index) => {
+
+            if (mushroom.collidesWith(this.mario)) {
+                this.score.incLives();
+                delete(this.mushrooms[index]);
+                this.score.points += 5;
+            }
+        });
+
+        this.flowers.forEach((flower, index) => {
+
+            if (flower.collidesWith(this.mario)) {
+                this.mario.status.isNotFire = false;
+                this.mario.status.isFire = true;
+                delete(this.flowers[index]);
+                this.score.points += 5;
             }
         });
 
@@ -274,6 +319,8 @@ class Game {
             if (goomba.collidesWithLeft(this.mario)) {
                 this.mario.x = goomba.x - this.mario.w - (5 * RF);
                 this.mario.lives --;
+                this.mario.status.isFire = false;
+                this.mario.status.isNotFire = true;
                 this.score.decLives();
             }
            

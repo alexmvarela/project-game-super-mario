@@ -51,7 +51,7 @@ class Score {
         }
     }
 
-    decLives(amount = 1) {
+    decLives(amount = 3) {
         
         this.lives -= amount;
     }
@@ -99,9 +99,9 @@ class Score {
         this.ctx.restore();
 
         this.ctx.save();
-        this.ctx.font = '15px Arial';
+        this.ctx.font = '20px Arial';
         this.ctx.fillStyle = 'white';
-        this.ctx.fillText(`SCORE x${this.points}`, SCORE_COIN_X_PADDING + (120 * RF), SCORE_COIN_Y_PADDING + (30 * RF));
+        this.ctx.fillText(`SCORE x${this.points}`, SCORE_COIN_X_PADDING + (110 * RF), SCORE_COIN_Y_PADDING + (30 * RF));
         this.ctx.restore();
     }
 

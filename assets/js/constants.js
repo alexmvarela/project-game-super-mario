@@ -2,7 +2,7 @@ const ASPECT_RATIO = 4 / 3; //The aspect ratio should not be modified
 
 const FPS = 1000 / 60;
 
-const CANVAS_W = 500;
+const CANVAS_W = 750;
 
 const RF = CANVAS_W / 500; //The Resize Factor (RF) should not be modified
 
@@ -21,7 +21,7 @@ const BACKGROUND_SPEED = 4 * RF;
 
 const MARIO_WIDTH = 55 * RF;
 const MARIO_HEIGHT = 69 * RF;
-const MARIO_X_PADDING = 120 * RF;
+const MARIO_X_PADDING = 100 * RF;
 const MARIO_GROUND_PADDING = 119 * RF;
 const MARIO_SPEED_MOVE = 6 * RF;
 const MARIO_SPEED_JUMP = 10 * RF;
@@ -88,3 +88,6 @@ const SCORE_MUSHROOM_WIDTH = 28 * RF;
 const SCORE_MUSHROOM_HEIGHT = 28 * RF;
 const SCORE_MUSHROOM_X_PADDING = 400 * RF;
 const SCORE_MUSHROOM_Y_PADDING = 7 * RF;
+
+const FLOWER_WIDTH = 32 * RF;
+const FLOWER_HEIGHT = 32 * RF;
