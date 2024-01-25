@@ -51,7 +51,7 @@ class Score {
         }
     }
 
-    decLives(amount = 10) {
+    decLives(amount = 3) {
         
         this.lives -= amount;
     }
