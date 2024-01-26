@@ -20,6 +20,8 @@ class Game {
 
         this.mario = new Mario(this.ctx, MARIO_X_PADDING, this.canvas.height - MARIO_GROUND_PADDING);
 
+        this.flag = new Flag(this.ctx, 4650 * RF, 256 * RF);
+
         this.goombas = [
             new Goomba(this.ctx, 570 * RF, 286 * RF),
             new Goomba(this.ctx, 1900 * RF, 286 * RF),
@@ -184,6 +186,7 @@ class Game {
                 this.move();
                 this.checkCollisions();
                 this.draw();
+                this.levelCompleted();
             }, this.fps);
         }
     }
@@ -215,6 +218,7 @@ class Game {
         this.coins.forEach((coin) => coin.draw());
         this.mushrooms.forEach((mushroom) => mushroom.draw());
         this.flowers.forEach((flower) => flower.draw());
+        this.flag.draw();
         this.mario.draw();
         this.score.draw();
     }
@@ -223,6 +227,7 @@ class Game {
 
         this.mario.move();
         this.background.move(this.mario);
+        this.flag.move(this.background);
         this.platforms.forEach((platform) => platform.move(this.background));
         this.blocksItem.forEach((block) => block.move(this.background));
         this.blocks.forEach((block) => block.move(this.background));
@@ -237,12 +242,23 @@ class Game {
         this.lakitus.forEach((lakitu) => lakitu.move(this.background));
     }
 
-
+    levelCompleted() {
+        
+        if (this.background.x < -(BACKGROUND_WIDTH - CANVAS_W)) {
+            this.mario.vx = 0;
+            this.flag.y -= this.flag.vy;
+        }
+        
+        if (this.flag.y === this.flag.y0) {
+            this.stop();
+        }
+    }
 
     checkCollisions() {
         
         if ((this.pipelines[0].collidesWithUp(this.mario) || this.pipelines[5].collidesWithUp(this.mario)) && this.mario.movements.crouch) {
             this.background.y = -this.canvas.height;
+            this.flag.y += this.canvas.height;
             this.pipelines.forEach((pipeline) => pipeline.y += this.canvas.height);
             this.piranhas.forEach((piranha) => piranha.y += this.canvas.height);
             this.platforms.forEach((platform) => platform.y += this.canvas.height);
@@ -260,6 +276,7 @@ class Game {
 
         if (this.pipelines[3].collidesWithDown(this.mario) || this.pipelines[8].collidesWithDown(this.mario)) {
             this.background.y = 0;
+            this.flag.y -= this.canvas.height;
             this.pipelines.forEach((pipeline) => pipeline.y -= this.canvas.height);
             this.piranhas.forEach((piranha) => piranha.y -= this.canvas.height);
             this.platforms.forEach((platform) => platform.y -= this.canvas.height);
@@ -653,5 +670,5 @@ class Game {
                 }
             } 
         });
-    }      
+    }
 }

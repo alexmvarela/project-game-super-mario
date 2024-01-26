@@ -36,12 +36,12 @@ class Background {
         if (mario.x > MARIO_X_MOVE_BG_LEFT) {
             this.movements.left = true;
             mario.x = MARIO_X_MOVE_BG_LEFT;
-            this.x -= BACKGROUND_SPEED;
+            this.x -= this.vx;
   
         } else if (mario.x < MARIO_X_MOVE_BG_RIGHT && this.x < 0) {
             this.movements.right = true;
             mario.x = MARIO_X_MOVE_BG_RIGHT;
-            this.x += BACKGROUND_SPEED;
+            this.x += this.vx;
 
         } else {
             this.movements.left = false;
