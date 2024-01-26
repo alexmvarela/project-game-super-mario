@@ -99,7 +99,7 @@ class Block {
 
         return (
             element.y + element.h > this.y &&
-            element.y + element.h < this.y + (10 * RF)  &&
+            element.y + element.h < this.y + (15 * RF)  &&
             element.x + element.w >= this.x + (5 * RF) &&
             element.x <= this.x + this.w - (5 * RF)
         )

@@ -21,14 +21,27 @@ class Game {
         this.mario = new Mario(this.ctx, MARIO_X_PADDING, this.canvas.height - MARIO_GROUND_PADDING);
 
         this.goombas = [
-            new Goomba(this.ctx, 650 * RF, 286 * RF),
-            new Goomba(this.ctx, 1950 * RF, 286 * RF),
-            new Goomba(this.ctx, 1950 * RF, (286 * RF) - GOOMBA_HEIGHT ),
-            
+            new Goomba(this.ctx, 570 * RF, 286 * RF),
+            new Goomba(this.ctx, 1900 * RF, 286 * RF),
+            new Goomba(this.ctx, 1900 * RF, (286 * RF) - GOOMBA_HEIGHT ),
+            new Goomba(this.ctx, 3650 * RF, 286 * RF),
+            new Goomba(this.ctx, 3700 * RF, 286 * RF),
+            new Goomba(this.ctx, 3700 * RF, (286 * RF) - GOOMBA_HEIGHT),
+            new Goomba(this.ctx, 3750 * RF, 286 * RF),
+            new Goomba(this.ctx, 3750 * RF, (286 * RF) - GOOMBA_HEIGHT),
+            new Goomba(this.ctx, 3750 * RF, (286 * RF) - (GOOMBA_HEIGHT * 2)),
+            new Goomba(this.ctx, 3800 * RF, 286 * RF),
+            new Goomba(this.ctx, 3800 * RF, 286 * RF - GOOMBA_HEIGHT),
+            new Goomba(this.ctx, 3850 * RF, 286 * RF),
         ];
 
         this.spinys = [
-            //new Spiny(this.ctx, 300 * RF, 297 * RF),
+            new Spiny(this.ctx, 2950 * RF, 297 * RF),
+            new Spiny(this.ctx, 2987 * RF, 297 * RF),
+            new Spiny(this.ctx, 3130 * RF, 297 * RF),
+            new Spiny(this.ctx, 3130 * RF, (297 * RF) - SPINY_HEIGHT),
+            new Spiny(this.ctx, 3250 * RF, 297 * RF),
+            new Spiny(this.ctx, 3287 * RF, 297 * RF),
         ];
 
         this.lakitus = [
@@ -46,20 +59,27 @@ class Game {
             new Platform(this.ctx, 2400 * RF, 100 * RF, 150 * RF, 125 * RF),
             new Platform(this.ctx, 2200 * RF, 200 * RF, 300 * RF, 125 * RF),
             //new Platform(this.ctx, 2400 * RF, 100 * RF, 150 * RF, 125 * RF),
-            //new Platform(this.ctx, 2400 * RF, 100 * RF, 150 * RF, 125 * RF),
+            //new Platform(this.ctx, 300 * RF, 100 * RF, 150 * RF, 125 * RF),
         ];
 
         this.blocksItem = [
             new BlockItem(this.ctx, 350 * RF, 175 * RF),
             new BlockItem(this.ctx, 1200 * RF, 175 * RF),
-            //new BlockItem(this.ctx, 2400 * RF, 105 * RF),
+            new BlockItem(this.ctx, 1600 * RF, 175 * RF),
+            new BlockItem(this.ctx, 2764 * RF, 55 * RF),
         ];
 
         this.blocks = [
             new Block(this.ctx, 300 * RF, 175 * RF),
             new Block(this.ctx, 400 * RF, 175 * RF),
             new Block(this.ctx, 1300 * RF, 250 * RF),
-            //new Block(this.ctx, 1550 * RF, 250 * RF),
+            new Block(this.ctx, 2700 * RF, 190 * RF),
+            new Block(this.ctx, 2732 * RF, 190 * RF),
+            new Block(this.ctx, 2764 * RF, 190 * RF),
+            new Block(this.ctx, 2796 * RF, 190 * RF),
+            new Block(this.ctx, 2828 * RF, 190 * RF),
+            new Block(this.ctx, 2630 * RF, 90 * RF),
+            //new Block(this.ctx, 2700 * RF, 175 * RF),
         ];
 
         this.coins = [
