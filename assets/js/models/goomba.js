@@ -9,6 +9,9 @@ class Goomba {
         this.w = GOOMBA_WIDTH;
         this.h = GOOMBA_HEIGHT;
 
+        this.xMin = this.x - (75 * RF);
+        this.xMax = this.x + (75 * RF);
+
         this.vx = GOOMBA_SPEED;
         
         this.sprite = new Image();
@@ -86,15 +89,26 @@ class Goomba {
 
         if (this.movements.left && this.status.isAlive && background.movements.left) {
             this.x -= BACKGROUND_SPEED + (1 * RF);
+            this.xMin -= BACKGROUND_SPEED;
+            this.xMax -= BACKGROUND_SPEED;
+            if (this.x < this.xMin) {
+                this.x = this.xMin;
+            }
             if (this.moveTick > GOOMBA_MOVE_TICK) {
                 this.movements.left = false;
                 this.movements.right = true;
                 this.moveTick = 0;
             }
         }
+    
 
         if (this.movements.right && this.status.isAlive && background.movements.left) {
             this.x -= BACKGROUND_SPEED - (1 * RF);
+            this.xMin -= BACKGROUND_SPEED;
+            this.xMax -= BACKGROUND_SPEED
+            if (this.x > this.xMax) {
+                this.x = this.xMax;
+            }
             if (this.moveTick > GOOMBA_MOVE_TICK) {
                 this.movements.right = false;
                 this.movements.left = true;
@@ -104,6 +118,8 @@ class Goomba {
 
         if (this.movements.left && this.status.isAlive && background.movements.right) {
             this.x += BACKGROUND_SPEED - (1 * RF);
+            this.xMin += BACKGROUND_SPEED;
+            this.xMax += BACKGROUND_SPEED;
             if (this.moveTick > GOOMBA_MOVE_TICK) {
                 this.movements.left = false;
                 this.movements.right = true;
@@ -113,6 +129,8 @@ class Goomba {
 
         if (this.movements.right && this.status.isAlive && background.movements.right) {
             this.x += BACKGROUND_SPEED + (1 * RF);
+            this.xMin += BACKGROUND_SPEED;
+            this.xMax += BACKGROUND_SPEED;
             if (this.moveTick > GOOMBA_MOVE_TICK) {
                 this.movements.right = false;
                 this.movements.left = true;
@@ -122,6 +140,10 @@ class Goomba {
 
         if (this.movements.left && this.status.isAlive && !background.movements.left && !background.movements.right) {
             this.x -= GOOMBA_SPEED ;
+            
+            if (this.x < this.xMin) {
+                this.x = this.xMin;
+            }
             if (this.moveTick > GOOMBA_MOVE_TICK) {
                 this.movements.left = false;
                 this.movements.right = true;
@@ -131,6 +153,9 @@ class Goomba {
         
         if (this.movements.right && this.status.isAlive && !background.movements.left && !background.movements.right) {
             this.x += GOOMBA_SPEED;
+            if (this.x > this.xMax) {
+                this.x = this.xMax;
+            }
             if (this.moveTick > GOOMBA_MOVE_TICK) {
                 this.movements.right = false;
                 this.movements.left = true;
@@ -172,7 +197,7 @@ class Goomba {
 
         return (
             element.y + element.h > this.y &&
-            element.y + element.h < this.y + (10 * RF)  &&
+            element.y + element.h < this.y + (15 * RF)  &&
             element.x + element.w >= this.x + (5 * RF) &&
             element.x <= this.x + this.w - (5 * RF)
         )
