@@ -42,15 +42,20 @@ class Game {
             new Spiny(this.ctx, 3130 * RF, (297 * RF) - SPINY_HEIGHT),
             new Spiny(this.ctx, 3250 * RF, 297 * RF),
             new Spiny(this.ctx, 3287 * RF, 297 * RF),
+            new Spiny(this.ctx, 4350 * RF, 297 * RF),
+            new Spiny(this.ctx, 4387 * RF, 297 * RF),
+            new Spiny(this.ctx, 4424 * RF, 297 * RF),
         ];
 
         this.lakitus = [
             new Lakitu(this.ctx, 1250 * RF, 150 * RF),
             new Lakitu(this.ctx, 2000 * RF, 150 * RF),
+            new Lakitu(this.ctx, 4450 * RF, 150 * RF),
         ];
 
         this.piranhas = [
             new Piranha(this.ctx, 1710 * RF, 210 * RF),
+            new Piranha(this.ctx, 4010 * RF, 210 * RF),
         ];
 
         this.platforms = [
@@ -58,8 +63,6 @@ class Game {
             new Platform(this.ctx, 2150 * RF, 100 * RF, 150 * RF, 125 * RF),
             new Platform(this.ctx, 2400 * RF, 100 * RF, 150 * RF, 125 * RF),
             new Platform(this.ctx, 2200 * RF, 200 * RF, 300 * RF, 125 * RF),
-            //new Platform(this.ctx, 2400 * RF, 100 * RF, 150 * RF, 125 * RF),
-            //new Platform(this.ctx, 300 * RF, 100 * RF, 150 * RF, 125 * RF),
         ];
 
         this.blocksItem = [
@@ -67,6 +70,7 @@ class Game {
             new BlockItem(this.ctx, 1200 * RF, 175 * RF),
             new BlockItem(this.ctx, 1600 * RF, 175 * RF),
             new BlockItem(this.ctx, 2764 * RF, 55 * RF),
+            new BlockItem(this.ctx, 4300 * RF, 175 * RF),
         ];
 
         this.blocks = [
@@ -80,11 +84,14 @@ class Game {
             new Block(this.ctx, 2796 * RF, 190 * RF),
             new Block(this.ctx, 2828 * RF, 190 * RF),
             new Block(this.ctx, 2630 * RF, 90 * RF),
-            //new Block(this.ctx, 1500 * RF, -100 * RF),
+            new Block(this.ctx, 3400 * RF, -200 * RF),
         ];
 
         this.switchs = [
             new Switch(this.ctx, 900 * RF, - 90 * RF),
+            new Switch(this.ctx, 2400 * RF, - 90 * RF),
+            new Switch(this.ctx, 2900 * RF, - 90 * RF),
+            new Switch(this.ctx, 3700 * RF, - 90 * RF),
         ];
 
         this.coins = [
@@ -128,7 +135,12 @@ class Game {
             new Coin(this.ctx, 2360 * RF, 175 * RF),
             new Coin(this.ctx, 2382 * RF, 175 * RF),
             new Coin(this.ctx, 2404 * RF, 175 * RF),
-            new Coin(this.ctx, 2426 * RF, 175 * RF),  
+            new Coin(this.ctx, 2426 * RF, 175 * RF), 
+            
+            new Coin(this.ctx, 4085 * RF, 50 * RF),
+            new Coin(this.ctx, 4085 * RF, 72 * RF),
+            new Coin(this.ctx, 4085 * RF, 94 * RF),
+            new Coin(this.ctx, 4085 * RF, 116 * RF),
         ];
 
         this.mushrooms = [];
@@ -151,6 +163,10 @@ class Game {
             new Pipeline(this.ctx, 150 * RF, 255 * RF, 65 * RF, 69 * RF),
             new Pipeline(this.ctx, 1700 * RF, 255 * RF, 65 * RF, 69 * RF),
             new Pipeline(this.ctx, 1700 * RF, -120 * RF, 65 * RF, 69 * RF),
+
+            new Pipeline(this.ctx, 4000 * RF, 255 * RF, 65 * RF, 69 * RF),
+            new Pipeline(this.ctx, 4065 * RF, 155 * RF, 65 * RF, 169 * RF),
+            new Pipeline(this.ctx, 4130 * RF, 255 * RF, 65 * RF, 69 * RF),
         ];
     }
    
@@ -599,13 +615,24 @@ class Game {
         this.switchs.forEach((item, index) => {
             
             if (item.collidesWithUp(this.mario)) {
-                //this.coins.push(new Coin(this.ctx, item.x + 90, item.y));
                 item.status.isOn = false;
                 item.status.isOff = true;
-                for (let i = 1; i < 12; i ++) {
-                    for (let j = 1; j < 7; j + j++) {
-                    this.coins.push(new Coin(this.ctx, item.x + (100 * RF) + (30 * RF) * i, item.y - (30 * RF)* j));
+                if (index === 0 || index === 2) {
+                    for (let i = 1; i < 12; i ++) {
+                        for (let j = 0; j < 7; j + j++) {
+                        this.coins.push(new Coin(this.ctx, item.x + (100 * RF) + (30 * RF) * i, item.y - (30 * RF)* j));
+                        }
                     }
+                }
+                if (index === 1) {
+                    for (let i = 1; i < 6; i ++) {
+                        for (let j = 0; j < 2; j + j++) {
+                        this.goombas.push(new Goomba(this.ctx, item.x + (100 * RF) + (50 * RF) * i, item.y - (GOOMBA_HEIGHT * RF)* j));
+                        }
+                    }
+                }
+                if (index === 3) {
+                    this.flowers.push(new Flower(this.ctx, item.x + (60 * RF), item.y));  
                 }
             
             } else if (item.collidesWithDown(this.mario)) {
