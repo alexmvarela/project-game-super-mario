@@ -73,13 +73,18 @@ class Game {
             new Block(this.ctx, 300 * RF, 175 * RF),
             new Block(this.ctx, 400 * RF, 175 * RF),
             new Block(this.ctx, 1300 * RF, 250 * RF),
+            new Block(this.ctx, 1400 * RF, -200 * RF),
             new Block(this.ctx, 2700 * RF, 190 * RF),
             new Block(this.ctx, 2732 * RF, 190 * RF),
             new Block(this.ctx, 2764 * RF, 190 * RF),
             new Block(this.ctx, 2796 * RF, 190 * RF),
             new Block(this.ctx, 2828 * RF, 190 * RF),
             new Block(this.ctx, 2630 * RF, 90 * RF),
-            //new Block(this.ctx, 2700 * RF, 175 * RF),
+            //new Block(this.ctx, 1500 * RF, -100 * RF),
+        ];
+
+        this.switchs = [
+            new Switch(this.ctx, 900 * RF, - 90 * RF),
         ];
 
         this.coins = [
@@ -89,6 +94,11 @@ class Game {
             new Coin(this.ctx, 760 * RF, 120 * RF),
             new Coin(this.ctx, 782 * RF, 120 * RF),
             new Coin(this.ctx, 804 * RF, 120 * RF),
+
+            new Coin (this.ctx, 1450 * RF, -90 * RF),
+            new Coin (this.ctx, 1450 * RF, -120 * RF),
+            new Coin (this.ctx, 1450 * RF, -150 * RF),
+            new Coin (this.ctx, 1450 * RF, -180 * RF),
 
             new Coin(this.ctx, 1550 * RF, 300 * RF),
             new Coin(this.ctx, 1572 * RF, 300 * RF),
@@ -118,7 +128,7 @@ class Game {
             new Coin(this.ctx, 2360 * RF, 175 * RF),
             new Coin(this.ctx, 2382 * RF, 175 * RF),
             new Coin(this.ctx, 2404 * RF, 175 * RF),
-            new Coin(this.ctx, 2426 * RF, 175 * RF),
+            new Coin(this.ctx, 2426 * RF, 175 * RF),  
         ];
 
         this.mushrooms = [];
@@ -127,19 +137,20 @@ class Game {
 
         this.pipelines = [
             new Pipeline(this.ctx, 1000 * RF, 255 * RF, 65 * RF, 69 * RF), //Go down
-            new Pipeline(this.ctx, 580 * RF, -750 * RF, 65 * RF, 750 * RF), //Left border
-            new Pipeline(this.ctx, 1800 * RF, -750 * RF, 65 * RF, 750 * RF), //Right border
+            new Pipeline(this.ctx, 580 * RF, -750 * RF, 65 * RF, 700 * RF), //Left border
+            new Pipeline(this.ctx, 1810 * RF, -750 * RF, 65 * RF, 700 * RF), //Right border
             new Pipeline(this.ctx, 1425 * RF, -750 * RF, 80 * RF, 550 * RF), //Go up
             new Pipeline(this.ctx, 1440 * RF, 255 * RF, 65 * RF, 69 * RF), //Up
 
             new Pipeline(this.ctx, 2500 * RF, 255 * RF, 65 * RF, 69 * RF), //Go down
-            new Pipeline(this.ctx, 2200 * RF, -750 * RF, 65 * RF, 750 * RF), //Left border
-            new Pipeline(this.ctx, 3800 * RF, -750 * RF, 65 * RF, 750 * RF), //Right border
+            new Pipeline(this.ctx, 2160 * RF, -750 * RF, 65 * RF, 700 * RF), //Left border
+            new Pipeline(this.ctx, 3850 * RF, -750 * RF, 65 * RF, 700 * RF), //Right border
             new Pipeline(this.ctx, 3425 * RF, -750 * RF, 80 * RF, 550 * RF), //Go up
             new Pipeline(this.ctx, 3440 * RF, 255 * RF, 65 * RF, 69 * RF), //Up
 
             new Pipeline(this.ctx, 150 * RF, 255 * RF, 65 * RF, 69 * RF),
             new Pipeline(this.ctx, 1700 * RF, 255 * RF, 65 * RF, 69 * RF),
+            new Pipeline(this.ctx, 1700 * RF, -120 * RF, 65 * RF, 69 * RF),
         ];
     }
    
@@ -179,6 +190,7 @@ class Game {
         this.platforms.forEach((platform) => platform.draw());
         this.blocksItem.forEach((block) => block.draw());
         this.blocks.forEach((block) => block.draw());
+        this.switchs.forEach((item) => item.draw());
         this.piranhas.forEach((piranha) => piranha.draw());
         this.pipelines.forEach((pipeline) => pipeline.draw());
         this.goombas.forEach((goomba) => goomba.draw());
@@ -198,6 +210,7 @@ class Game {
         this.platforms.forEach((platform) => platform.move(this.background));
         this.blocksItem.forEach((block) => block.move(this.background));
         this.blocks.forEach((block) => block.move(this.background));
+        this.switchs.forEach((item) => item.move(this.background));
         this.piranhas.forEach((piranha) => piranha.move(this.background));
         this.pipelines.forEach((pipeline) => pipeline.move(this.background));
         this.coins.forEach((coin) => coin.move(this.background));
@@ -219,6 +232,7 @@ class Game {
             this.platforms.forEach((platform) => platform.y += this.canvas.height);
             this.blocksItem.forEach((block) => block.y += this.canvas.height);
             this.blocks.forEach((block) => block.y += this.canvas.height);
+            this.switchs.forEach((item) => item.y += this.canvas.height);
             this.coins.forEach((coin) => coin.y += this.canvas.height);
             this.mushrooms.forEach((mushroom) => mushroom.y += this.canvas.height);
             this.flowers.forEach((flower) => flower.y += this.canvas.height);
@@ -236,6 +250,7 @@ class Game {
             this.blocksItem.forEach((block) => block.y -= this.canvas.height);
             this.blocks.forEach((block) => block.y -= this.canvas.height);
             this.coins.forEach((coin) => coin.y -= this.canvas.height);
+            this.switchs.forEach((item) => item.y -= this.canvas.height);
             this.mushrooms.forEach((mushroom) => mushroom.y -= this.canvas.height);
             this.mushrooms.forEach((flower) => flower.y -= this.canvas.height);
             this.goombas.forEach((goomba) => goomba.y -= this.canvas.height);
@@ -347,10 +362,13 @@ class Game {
                 this.mario.vy = 0;
                 block.status.isOn = false;
                 block.status.isOff = true;
+            
             } else if (block.collidesWithLeft(this.mario)) {
                 this.mario.x = block.x - this.mario.w - (5 * RF);
+            
             } else if (block.collidesWithRight(this.mario)) {
                 this.mario.x = block.x + block.w + (5 * RF);
+            
             } else {
                 this.mario.y0 = this.canvas.height - MARIO_GROUND_PADDING;
                 if (block.sprite.horizontalFrameIndex === 1 && block.animationTick > BLOCK_DELETE_DELAY) {
@@ -576,6 +594,37 @@ class Game {
                     this.score.points += 100;  
                 }
             });
+        });
+
+        this.switchs.forEach((item, index) => {
+            
+            if (item.collidesWithUp(this.mario)) {
+                //this.coins.push(new Coin(this.ctx, item.x + 90, item.y));
+                item.status.isOn = false;
+                item.status.isOff = true;
+                for (let i = 1; i < 12; i ++) {
+                    for (let j = 1; j < 7; j + j++) {
+                    this.coins.push(new Coin(this.ctx, item.x + (100 * RF) + (30 * RF) * i, item.y - (30 * RF)* j));
+                    }
+                }
+            
+            } else if (item.collidesWithDown(this.mario)) {
+                this.mario.y = item.y + item.h;
+                this.mario.vy = 0;
+                
+            } else if (item.collidesWithLeft(this.mario)) {
+                this.mario.x = item.x - this.mario.w - (5 * RF);
+            
+            } else if (item.collidesWithRight(this.mario)) {
+                this.mario.x = item.x + item.w + (5 * RF);
+            
+            } else {
+                this.mario.y0 = this.canvas.height - MARIO_GROUND_PADDING;
+                if (item.sprite.horizontalFrameIndex === 1 && item.animationTick > SWITCH_DELETE_DELAY) {
+                    delete(this.switchs[index]);
+                    this.score.points += 10;
+                }
+            } 
         });
     }      
 }

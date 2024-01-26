@@ -89,3 +89,7 @@ const SCORE_MUSHROOM_Y_PADDING = 7 * RF;
 
 const FLOWER_WIDTH = 32 * RF;
 const FLOWER_HEIGHT = 32 * RF;
+
+const SWICHT_WIDTH = 40 * RF;
+const SWITCH_HEIGHT = 40 * RF;
+const SWITCH_DELETE_DELAY = 50 * RF;
