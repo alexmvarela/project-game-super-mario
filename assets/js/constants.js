@@ -2,7 +2,7 @@ const ASPECT_RATIO = 4 / 3; //The aspect ratio should not be modified
 
 const FPS = 1000 / 60;
 
-const CANVAS_W = 750;
+const CANVAS_W = 500;
 
 const RF = CANVAS_W / 500; //The Resize Factor (RF) should not be modified
 
@@ -93,3 +93,8 @@ const FLOWER_HEIGHT = 32 * RF;
 const SWICHT_WIDTH = 40 * RF;
 const SWITCH_HEIGHT = 40 * RF;
 const SWITCH_DELETE_DELAY = 50 * RF;
+
+const FLAG_WIDTH = 32 * RF;
+const FLAG_HEIGHT = 35 * RF;
+const FLAG_UP = 95 * RF;
+const FLAG_SPEED_Y = 1 * RF;
