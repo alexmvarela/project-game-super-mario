@@ -17,6 +17,10 @@ class Flower {
         this.sprite.onload = () => {
             this.sprite.isReady = true;
         }
+
+        this.sfxPowerup = new Audio();
+        this.sfxPowerup.src = 'assets/audio/powerup.wav';
+        this.sfxPowerup.volume = 0.7;
     }
 
     draw() {
@@ -51,4 +55,9 @@ class Flower {
             element.x <= this.x + this.w 
         )
     }
-}
+
+    sfxPowerupPlay() {
+        
+        this.sfxPowerup.play();
+    }
+}   

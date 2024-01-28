@@ -31,6 +31,10 @@ class Switch {
         }
 
         this.animationTick = 0;
+
+        this.sfx = new Audio();
+        this.sfx.src = 'assets/audio/bump.wav';
+        this.sfx.volume = 0.5;
     }
 
     draw() {

@@ -26,6 +26,10 @@ class Coin {
         }
 
         this.animationTick = 0;
+
+        this.sfx = new Audio();
+        this.sfx.src = 'assets/audio/coin.mp3';
+        this.sfx.volume = 0.2;
     }
 
     draw() {
@@ -79,5 +83,10 @@ class Coin {
             element.x + element.w >= this.x &&
             element.x <= this.x + this.w 
         )
+    }
+
+    sfxPlay() {
+        
+        this.sfx.play(); 
     }
 }

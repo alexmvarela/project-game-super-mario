@@ -31,6 +31,10 @@ class Block {
         }
 
         this.animationTick = 0;
+
+        this.sfx = new Audio();
+        this.sfx.src = 'assets/audio/breakblock.wav';
+        this.sfx.volume = 0.5;
     }
 
     draw() {
@@ -113,5 +117,10 @@ class Block {
             element.y > this.y + this.h - (20 * RF) &&
             element.y < this.y + this.h 
         )
+    }
+
+    sfxPlay() {
+        
+        this.sfx.play();
     }
 }

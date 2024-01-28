@@ -2,7 +2,7 @@ const ASPECT_RATIO = 4 / 3; //The aspect ratio should not be modified
 
 const FPS = 1000 / 60;
 
-const CANVAS_W = 500;
+const CANVAS_W = 600;
 
 const RF = CANVAS_W / 500; //The Resize Factor (RF) should not be modified
 
@@ -56,7 +56,7 @@ const GOOMBA_HEIGHT = 37 * RF;
 const GOOMBA_SPEED = 2 * RF;
 const GOOMBA_ANIMATION_TICK = 10;
 const GOOMBA_MOVE_TICK = 50;
-const GOOMBA_DELETE_DELAY = 40;
+const GOOMBA_DELETE_DELAY = 20;
 
 const SPINY_WIDTH = 37 * RF;
 const SPINY_HEIGHT = 28 * RF;

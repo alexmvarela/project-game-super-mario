@@ -31,6 +31,10 @@ class BlockItem {
         }
 
         this.animationTick = 0;
+
+        this.sfx = new Audio();
+        this.sfx.src = 'assets/audio/bump.wav';
+        this.sfx.volume = 0.5;
     }
 
     draw() {
@@ -122,5 +126,10 @@ class BlockItem {
             element.y > this.y + this.h - (20 * RF) &&
             element.y < this.y + this.h 
         )
+    }
+
+    sfxPlay() {
+        
+        this.sfx.play();
     }
 }
