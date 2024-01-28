@@ -13,6 +13,22 @@ class Game {
 
         this.drawIntervalId = undefined;
 
+        this.mainTheme = new Audio ();
+        this.mainTheme.src = "assets/audio/ground-theme.mp3";
+        this.mainTheme.volume = 0.7;
+
+        this.levelCompletedTheme = new Audio();
+        this.levelCompletedTheme.src = "assets/audio/level-completed.mp3"
+        this.levelCompletedTheme.volume = 0.7;
+
+        this.sfxEnemyDefeated = new Audio();
+        this.sfxEnemyDefeated.src = "assets/audio/enemy-defeated.wav";
+        this.sfxEnemyDefeated.volume = 0.7;
+
+        this.sfxShrink = new Audio();
+        this.sfxShrink.src = "assets/audio/shrink.wav";
+        this.sfxShrink.volume = 0.7;
+
         this.score = new Score(this.ctx, 15 * RF, 25 * RF);
 
     
@@ -57,7 +73,7 @@ class Game {
 
         this.piranhas = [
             new Piranha(this.ctx, 1710 * RF, 210 * RF),
-            new Piranha(this.ctx, 4010 * RF, 210 * RF),
+            new Piranha(this.ctx, 4140 * RF, 210 * RF),
         ];
 
         this.platforms = [
@@ -185,8 +201,12 @@ class Game {
                 this.clear();
                 this.move();
                 this.checkCollisions();
-                this.draw();
                 this.levelCompleted();
+                this.draw();
+
+                if (this.mainTheme.currentTime > 180) {
+                    this.mainTheme.currentTime = 0;
+                }
             }, this.fps);
         }
     }
@@ -245,18 +265,27 @@ class Game {
     levelCompleted() {
         
         if (this.background.x < -(BACKGROUND_WIDTH - CANVAS_W)) {
+            this.mainTheme.pause();
+            this.mainTheme.currentTime = 0;
+            this.levelCompletedTheme.play();
             this.mario.vx = 0;
             this.flag.y -= this.flag.vy;
         }
         
-        if (this.flag.y === this.flag.y0) {
+        if (this.flag.y <= this.flag.y0) {
             this.stop();
         }
+    }
+
+    mainThemePlay() {
+        
+        this.mainTheme.play();
     }
 
     checkCollisions() {
         
         if ((this.pipelines[0].collidesWithUp(this.mario) || this.pipelines[5].collidesWithUp(this.mario)) && this.mario.movements.crouch) {
+            this.sfxShrink.play();
             this.background.y = -this.canvas.height;
             this.flag.y += this.canvas.height;
             this.pipelines.forEach((pipeline) => pipeline.y += this.canvas.height);
@@ -275,6 +304,7 @@ class Game {
         }
 
         if (this.pipelines[3].collidesWithDown(this.mario) || this.pipelines[8].collidesWithDown(this.mario)) {
+            this.sfxShrink.play();
             this.background.y = 0;
             this.flag.y -= this.canvas.height;
             this.pipelines.forEach((pipeline) => pipeline.y -= this.canvas.height);
@@ -357,6 +387,7 @@ class Game {
                 this.mario.movements.isJumping = false;
             
             } else if (block.collidesWithDown(this.mario)) {
+                block.sfxPlay();
                 this.mario.y = block.y + block.h;
                 this.mario.vy = 0;
                 if (block.status.isOn && this.score.lives > 40 && this.mario.status.isNotFire) {
@@ -391,6 +422,7 @@ class Game {
                 this.mario.movements.isJumping = false;
             
             } else if (block.collidesWithDown(this.mario)) {
+                block.sfxPlay();
                 this.mario.y = block.y + block.h;
                 this.mario.vy = 0;
                 block.status.isOn = false;
@@ -416,6 +448,7 @@ class Game {
             if (coin.collidesWith(this.mario)) {
                 this.score.incCoins();
                 delete(this.coins[index]);
+                coin.sfxPlay();
                 this.score.points += 5;
             }
         });
@@ -423,6 +456,7 @@ class Game {
         this.mushrooms.forEach((mushroom, index) => {
 
             if (mushroom.collidesWith(this.mario)) {
+                mushroom.sfx.play();
                 this.score.incLives();
                 delete(this.mushrooms[index]);
                 this.score.points += 5;
@@ -432,6 +466,7 @@ class Game {
         this.flowers.forEach((flower, index) => {
 
             if (flower.collidesWith(this.mario)) {
+                flower.sfxPowerupPlay();
                 this.mario.status.isNotFire = false;
                 this.mario.status.isFire = true;
                 delete(this.flowers[index]);
@@ -445,6 +480,7 @@ class Game {
                 this.mario.y0 = goomba.y - this.mario.h;
                 this.mario.vy = 0;
                 this.mario.movements.isJumping = false;
+                this.sfxEnemyDefeated.play();
                 this.mario.jump();
                 goomba.status.isAlive = false;
                 goomba.status.isDead = true;
@@ -473,6 +509,7 @@ class Game {
             
             this.mario.bulletsToRight.forEach((bullet) => {
                 if (goomba.collidesWithBullet(bullet)) {
+                    this.sfxEnemyDefeated.play();
                     delete(this.goombas[index]);
                     this.score.points += 100; 
                 }
@@ -480,6 +517,7 @@ class Game {
 
             this.mario.bulletsToLeft.forEach((bullet) => {
                 if (goomba.collidesWithBullet(bullet)) {
+                    this.sfxEnemyDefeated.play();
                     delete(this.goombas[index]);
                     this.score.points += 100;  
                 }
@@ -518,6 +556,7 @@ class Game {
             
             this.mario.bulletsToRight.forEach((bullet) => {
                 if (spiny.collidesWithBullet(bullet)) {
+                    this.sfxEnemyDefeated.play();
                     delete(this.spinys[index]);
                     this.score.points += 100; 
                 }
@@ -525,6 +564,7 @@ class Game {
 
             this.mario.bulletsToLeft.forEach((bullet) => {
                 if (spiny.collidesWithBullet(bullet)) {
+                    this.sfxEnemyDefeated.play();
                     delete(this.spinys[index]);
                     this.score.points += 100;  
                 }
@@ -537,6 +577,7 @@ class Game {
                 this.mario.y0 = lakitu.y - this.mario.h;
                 this.mario.vy = 0;
                 this.mario.movements.isJumping = false;
+                this.sfxEnemyDefeated.play();
                 this.mario.jump();
                 lakitu.status.isAlive = false;
                 lakitu.status.isDead = true;
@@ -571,6 +612,7 @@ class Game {
             
             this.mario.bulletsToRight.forEach((bullet) => {
                 if (lakitu.collidesWithBullet(bullet)) {
+                    this.sfxEnemyDefeated.play();
                     delete(this.lakitus[index]);
                     this.score.points += 100; 
                 }
@@ -578,6 +620,7 @@ class Game {
 
             this.mario.bulletsToLeft.forEach((bullet) => {
                 if (lakitu.collidesWithBullet(bullet)) {
+                    this.sfxEnemyDefeated.play();
                     delete(this.lakitus[index]);
                     this.score.points += 100;  
                 }
@@ -616,6 +659,7 @@ class Game {
             
             this.mario.bulletsToRight.forEach((bullet) => {
                 if (piranha.collidesWithBullet(bullet)) {
+                    this.sfxEnemyDefeated.play();
                     delete(this.piranhas[index]);
                     this.score.points += 100; 
                 }
@@ -623,6 +667,7 @@ class Game {
 
             this.mario.bulletsToLeft.forEach((bullet) => {
                 if (piranha.collidesWithBullet(bullet)) {
+                    this.sfxEnemyDefeated.play();
                     delete(this.piranhas[index]);
                     this.score.points += 100;  
                 }
@@ -632,6 +677,7 @@ class Game {
         this.switchs.forEach((item, index) => {
             
             if (item.collidesWithUp(this.mario)) {
+                item.sfx.play();
                 item.status.isOn = false;
                 item.status.isOff = true;
                 if (index === 0 || index === 2) {
@@ -643,9 +689,9 @@ class Game {
                 }
                 if (index === 1) {
                     for (let i = 1; i < 6; i ++) {
-                        for (let j = 0; j < 2; j + j++) {
-                        this.goombas.push(new Goomba(this.ctx, item.x + (100 * RF) + (50 * RF) * i, item.y - (GOOMBA_HEIGHT * RF)* j));
-                        }
+                        this.coins.push(new Coin(this.ctx, item.x + (100 * RF) + (50 * RF) * i, item.y + (10 * RF)));
+                        this.goombas.push(new Goomba(this.ctx, item.x + (100 * RF) + (50 * RF) * i, item.y - GOOMBA_HEIGHT));
+                        
                     }
                 }
                 if (index === 3) {

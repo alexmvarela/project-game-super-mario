@@ -1,0 +1,85 @@
+body {
+    background-image: url("../img/backgrounds/background.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin: 0;
+    height: 100vh;
+}
+
+main {
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+}
+
+.hidden {
+    display: none!important;
+}
+
+#start-panel {
+    background-image: url("../img/backgrounds/bg-start.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 600px;
+    height: 450px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    top: 135px;
+}
+
+canvas {
+    position: relative;
+    top: 135px;
+}
+
+#controls {
+    height: fit-content;
+    position: relative;
+    top: 90px;
+}
+
+#btn-controls {
+    font-family: 'Sixtyfour';
+    font-size: 15px;
+    text-decoration-color: rgba(57, 54, 49, 1);
+    color: rgba(197, 198, 193, 1);
+    background-color: transparent;
+    margin-top: 100px;
+    padding: 4px;
+    position: relative;
+    left: 50px
+}
+
+#start-btn {
+    font-family: 'Sixtyfour';
+    font-size: 15px;
+    text-decoration-color: rgba(57, 54, 49, 1);
+    color: rgba(197, 198, 193, 1);
+    background-color: transparent;
+    position: relative;
+    left: 230px;
+    padding: 10px;
+    border-radius: 10%;
+}
+
+p {
+    font-family: 'Press Start 2P';
+    font-size: 12px;
+    text-align: center;
+    justify-content: center;
+    color: white;
+    background-color: black;
+    padding: 5px;
+}
+
+.hidden-controls {
+    opacity: 0;
+}
+
+.show-controls {
+    opacity: 1;;
+}

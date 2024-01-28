@@ -51,6 +51,14 @@ class Mario {
         this.spriteFire.onload = () => {
             this.spriteFire.isReady = true;
         }
+
+        this.sfxJump = new Audio();
+        this.sfxJump.src = 'assets/audio/jump.wav';
+        this.sfxJump.volume = 0.5;
+
+        this.sfxFireball = new Audio();
+        this.sfxFireball.src = 'assets/audio/fireball.wav';
+        this.sfxFireball.volume = 0.5;
     }
     
     onKeyEvent(event) {
@@ -71,21 +79,25 @@ class Mario {
             case KEY_JUMP_1:
                 if (enabled) {
                     this.jump();
+                    this.sfxJumpPlay();
                 }
                 break;
             case KEY_JUMP_2:
                 if (enabled) {
                     this.jump();
+                    this.sfxJumpPlay();
                 }
                 break;
             case KEY_SHOOT_1:
                 if (enabled & this.status.isFire) {
                     this.shoot();
+                    this.sfxFireballPlay();
                 }
                 break;
             case KEY_SHOOT_2:
                 if (enabled && this.status.isFire) {
                     this.shoot();
+                    this.sfxFireballPlay();
                 }
                 break;
         }
@@ -231,5 +243,15 @@ class Mario {
 
         this.bulletsToRight = this.bulletsToRight.filter((bullet) => bullet.x < this.ctx.canvas.width);
         this.bulletsToLeft = this.bulletsToLeft.filter((bullet) => bullet.x < this.ctx.canvas.width);
+    }
+
+    sfxJumpPlay() {
+
+        this.sfxJump.play(); 
+    }
+
+    sfxFireballPlay() {
+        
+        this.sfxFireball.play();
     }
 }

@@ -17,6 +17,10 @@ class Mushroom {
         this.sprite.onload = () => {
             this.sprite.isReady = true;
         }
+
+        this.sfx = new Audio();
+        this.sfx.src = 'assets/audio/1up.wav';
+        this.sfx.volume = 0.5;
     }
 
     draw() {

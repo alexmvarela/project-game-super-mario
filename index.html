@@ -4,10 +4,34 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Super Mario</title>
- 
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Sixtyfour&display=swap" rel="stylesheet">
+        
+        <link rel="stylesheet" href="assets/css/main.css" />
     </head>
     <body>
-        <canvas id="main-canvas"></canvas>
+
+        <main>
+            <section id="start-panel" class="">
+            </section>
+
+            <canvas id="main-canvas" class="hidden"></canvas>
+
+            <section id="controls" class="hidden-controls">
+                <p>move: left/right arrow || crouch: down arrow 
+                    <br/>
+                    <br/>
+                    jump: A / up arrow || fireball: S / SPACE
+                </p>
+            </section>
+
+            <section id="buttons">
+                <button id="btn-controls">GAME CONTROLS</button>
+                <button id="start-btn">START</button>            
+            </section>
+        </main>
 
         <script src="assets/js/constants.js"></script>
         <script src="assets/js/models/background.js"></script>

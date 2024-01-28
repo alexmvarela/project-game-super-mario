@@ -35,6 +35,10 @@ class Score {
         this.points = 0;
 
         this.lives = 99;
+
+        this.sfx = new Audio();
+        this.sfx.src = "assets/audio/enemy-hit.wav";
+        this.sfx.volume = 0.5;
     }
   
     incCoins(amount = 1) {
@@ -54,6 +58,7 @@ class Score {
     decLives(amount = 3) {
         
         this.lives -= amount;
+        this.sfx.play();
     }
   
     draw() {
