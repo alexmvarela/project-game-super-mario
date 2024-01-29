@@ -13,6 +13,8 @@ class Game {
 
         this.drawIntervalId = undefined;
 
+        this.gameEnd = false;
+
         this.mainTheme = new Audio ();
         this.mainTheme.src = "assets/audio/ground-theme.mp3";
         this.mainTheme.volume = 0.7;
@@ -202,6 +204,7 @@ class Game {
                 this.move();
                 this.checkCollisions();
                 this.levelCompleted();
+                this.gameOver();
                 this.draw();
 
                 if (this.mainTheme.currentTime > 180) {
@@ -274,6 +277,36 @@ class Game {
         
         if (this.flag.y <= this.flag.y0) {
             this.stop();
+            setTimeout(() => {
+               this.ctx.save(); 
+               this.ctx.fillRect(0,0, this.canvas.width, this.canvas.height);
+               this.ctx.fillStyle = 'white'
+               this.ctx.font = '40px VT323';
+               this.ctx.fillText('> STAGE CLEAR;', 30 * RF, 100 * RF);
+               this.ctx.fillText('> click START to play again;', 30 * RF, 140 * RF);
+               this.ctx.restore();
+               this.gameEnd = true;
+            }, 4000);
+        }
+    }
+
+    gameOver() {
+        
+        if (this.score.lives <= 0) {
+            this.mainTheme.pause();
+            this.mainTheme.currentTime = 0;
+            this.mario.sfxGameOver.play();
+            this.stop();
+            setTimeout(() => {
+                this.ctx.save(); 
+                this.ctx.fillRect(0,0, this.canvas.width, this.canvas.height);
+                this.ctx.fillStyle = 'white'
+                this.ctx.font = '40px VT323';
+                this.ctx.fillText('> GAME OVER;', 30 * RF, 100 * RF);
+                this.ctx.fillText('> click START to play again;', 30 * RF, 140 * RF);
+                this.ctx.restore();
+                this.gameEnd = true;
+            }, 4000);
         }
     }
 

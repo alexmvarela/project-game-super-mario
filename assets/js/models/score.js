@@ -79,7 +79,7 @@ class Score {
         }
   
         this.ctx.save();
-        this.ctx.font = '20px Arial';
+        this.ctx.font = '20px VT323';
         this.ctx.fillStyle = 'white';
         this.ctx.fillText(this.coins, SCORE_COIN_X_PADDING - (45 * RF), SCORE_COIN_Y_PADDING + (30 * RF));
         this.ctx.restore();
@@ -98,13 +98,13 @@ class Score {
         }
 
         this.ctx.save();
-        this.ctx.font = '20px Arial';
+        this.ctx.font = '20px VT323';
         this.ctx.fillStyle = 'white';
         this.ctx.fillText(this.lives, SCORE_MUSHROOM_X_PADDING + (60 * RF), SCORE_MUSHROOM_Y_PADDING + (30 * RF));
         this.ctx.restore();
 
         this.ctx.save();
-        this.ctx.font = '20px Arial';
+        this.ctx.font = '20px VT323';
         this.ctx.fillStyle = 'white';
         this.ctx.fillText(`SCORE x${this.points}`, SCORE_COIN_X_PADDING + (110 * RF), SCORE_COIN_Y_PADDING + (30 * RF));
         this.ctx.restore();
