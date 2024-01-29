@@ -14,6 +14,9 @@ window.addEventListener('load', () => {
             canvas.classList.remove('hidden');
             game.mainTheme.play();
             game.start();
+            if (game.gameEnd) {
+                window.location = 'index.html'
+            }
         });
 });
 

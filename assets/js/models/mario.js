@@ -59,6 +59,10 @@ class Mario {
         this.sfxFireball = new Audio();
         this.sfxFireball.src = 'assets/audio/fireball.wav';
         this.sfxFireball.volume = 0.5;
+
+        this.sfxGameOver = new Audio();
+        this.sfxGameOver.src = 'assets/audio/game-over.mp3';
+        this.sfxGameOver.volume = 0.7;
     }
     
     onKeyEvent(event) {
