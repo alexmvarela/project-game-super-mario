@@ -18,8 +18,12 @@ class Mushroom {
             this.sprite.isReady = true;
         }
 
+        this.sfxLife = new Audio();
+        this.sfxLife.src = 'assets/audio/1up.wav';
+        this.sfxLife.volume = 0.5;
+
         this.sfx = new Audio();
-        this.sfx.src = 'assets/audio/1up.wav';
+        this.sfx.src = 'assets/audio/powerup.wav';
         this.sfx.volume = 0.5;
     }
 

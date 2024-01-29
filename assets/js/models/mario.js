@@ -36,7 +36,8 @@ class Mario {
         }
 
         this.status = {
-            isNotFire: true,
+            isSmall: false,
+            isBig: true,
             isFire: false,
         }
 
@@ -93,7 +94,7 @@ class Mario {
                 }
                 break;
             case KEY_SHOOT_1:
-                if (enabled & this.status.isFire) {
+                if (enabled && this.status.isFire) {
                     this.shoot();
                     this.sfxFireballPlay();
                 }
@@ -109,7 +110,7 @@ class Mario {
     
     draw() {
 
-        if (this.sprite.isReady && this.status.isNotFire) {
+        if (this.sprite.isReady && !this.status.isFire) {
             this.ctx.drawImage(
                 this.sprite,
                 this.sprite.horizontalFrameIndex * this.sprite.frameWidth,
@@ -210,12 +211,12 @@ class Mario {
           this.movements.isJumping = false;
         }
 
-        if (this.movements.crouch && this.y === this.y0) {
+        /*if (this.movements.crouch && this.y === this.y0) {
             this.h = MARIO_HEIGHT - MARIO_CROUCH_H_REDUCE;
             this.y += this.h - (MARIO_HEIGHT - (MARIO_CROUCH_H_REDUCE * RF));   
         } else if (!this.movements.crouch && this.h === MARIO_HEIGHT - MARIO_CROUCH_H_REDUCE) {
             this.h = MARIO_HEIGHT;
-        }
+        }*/
 
         this.bulletsToRight.forEach((bullet) => bullet.moveRight());
         this.bulletsToLeft.forEach((bullet) => bullet.moveLeft());

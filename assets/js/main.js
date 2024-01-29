@@ -12,10 +12,10 @@ window.addEventListener('load', () => {
             startPanel.classList.add('hidden');
             const canvas = document.getElementById('main-canvas');
             canvas.classList.remove('hidden');
-            game.mainTheme.play();
-            game.start();
+            
+            game.intro();
             if (game.gameEnd) {
-                window.location = 'index.html'
+                window.location.reload();
             }
         });
 });

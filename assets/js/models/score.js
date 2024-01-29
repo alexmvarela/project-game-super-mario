@@ -34,7 +34,7 @@ class Score {
 
         this.points = 0;
 
-        this.lives = 99;
+        this.lives = 3;
 
         this.sfx = new Audio();
         this.sfx.src = "assets/audio/enemy-hit.wav";
@@ -46,16 +46,12 @@ class Score {
         this.coins += amount;
     }
 
-    incLives(amount = 10) {
+    incLives(amount = 1) {
         
-        if (this.lives < 90) {
-           this.lives += amount;
-        } else {
-            this.lives = 99;
-        }
+        this.lives += amount;
     }
 
-    decLives(amount = 3) {
+    decLives(amount = 1) {
         
         this.lives -= amount;
         this.sfx.play();
