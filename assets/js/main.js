@@ -13,7 +13,9 @@ window.addEventListener('load', () => {
             const canvas = document.getElementById('main-canvas');
             canvas.classList.remove('hidden');
             
-            game.intro();
+            if (!game.introCompleted) {
+                game.intro();
+            }
             if (game.gameEnd) {
                 window.location.reload();
             }

@@ -13,7 +13,6 @@ const KEY_JUMP_2 = 65; //KEY A
 const KEY_CROUCH = 40; //KET Arrow Down
 const KEY_SHOOT_1 = 32; //KEY Space
 const KEY_SHOOT_2 = 83; //KEY S
-//KEY_Q = 81;
 
 const BACKGROUND_WIDTH = 5000 * RF;
 const BACKGROUND_HEIGHT = 750 * RF;
