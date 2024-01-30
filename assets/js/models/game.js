@@ -217,7 +217,7 @@ class Game {
                 }
                 
             }, this.fps);
-        }
+        } 
     }
 
     stop() {
@@ -925,10 +925,10 @@ class Game {
         this.ctx.restore();
                 
         setTimeout(() => {
-            this.introCompleted = true;
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            this.introCompleted = true;
             this.mainTheme.play();
-            this.start()
+            this.start();
         }, 4000);
     }
 }
